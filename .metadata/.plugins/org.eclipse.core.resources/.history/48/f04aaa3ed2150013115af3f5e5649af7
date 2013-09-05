@@ -6,9 +6,6 @@ import android.util.Log;
 
 public class WeatherService extends IntentService{
 
-	 public static final String MESSENGER_KEY = "messenger";
-	 public static final String TIME_KEY = "time";
-	
 	public WeatherService() {
 		super("WeatherService");
 		// TODO Auto-generated constructor stub
