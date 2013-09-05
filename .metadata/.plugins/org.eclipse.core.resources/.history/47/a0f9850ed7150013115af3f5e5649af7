@@ -13,12 +13,7 @@ public class WeatherService extends IntentService{
 
 	 public static final String MESSENGER_KEY = "messenger";
 	 public static final String TIME_KEY = "time";
-	 //-->public static final String SEARCH_STRING = "user_input";
-	 
-	 //-->MEssenger messenger;
-	 //-->Message message;
-	 //-->String search_string;
-	 
+	
 	public WeatherService() {
 		super("WeatherService");
 		// TODO Auto-generated constructor stub
@@ -26,17 +21,13 @@ public class WeatherService extends IntentService{
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		//-->String baseURL = ""http://api.wunderground.com/api/a988d453ebe759ad/conditions/";
-		//-->String endURL = ".json";
-		//--> URL finalURL;
-		
+		// TODO Auto-generated method stub
 		Log.i("onHandleIntent", "started");
 		
 		Bundle extras = intent.getExtras();
 		Messenger messenger = (Messenger) extras.get(MESSENGER_KEY);
 		String timer = extras.getString(TIME_KEY);
-		//-->messenger = (Messenger)extras.get(MESSENGER_KEY);
-		//-->search_string = (String)extras.getString(SEARCH_STRING);
+		
 		
 		int countdown = 10;
 		try{
