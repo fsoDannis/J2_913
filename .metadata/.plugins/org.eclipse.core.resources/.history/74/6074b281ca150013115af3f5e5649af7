@@ -1,0 +1,5 @@
+package com.dinkydetails.weatherpull;
+
+public class WeatherService {
+
+}

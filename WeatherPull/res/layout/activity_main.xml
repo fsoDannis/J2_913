@@ -38,4 +38,11 @@
             tools:ignore="ContentDescription" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="286dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.83"
+        android:text="" />
+
 </LinearLayout>
