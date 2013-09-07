@@ -83,7 +83,7 @@ public class WeatherService extends IntentService{
 				
 				URI[] uri = new URI[1];
 				try{
-					uri[0] = new URI(finalURL.toString());
+					uri[0] = newURI(finalURL.toString());
 				}catch (URISyntaxException e){
 					e.printStackTrace();
 				}
