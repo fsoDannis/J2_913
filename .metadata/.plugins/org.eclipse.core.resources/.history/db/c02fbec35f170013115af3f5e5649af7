@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements OnClickListener{
 		
 		Intent startCountdownIntent = new Intent (this, WeatherService.class);
 		startCountdownIntent.putExtra(WeatherService.MESSENGER_KEY, countdownMessenger);
-		startCountdownIntent.putExtra(WeatherService.SEARCH_STRING, this.editTextZipCode.getText().toString());
+	//	startCountdownIntent.putExtra(WeatherService.TIME_KEY, this.editTextZipCode.getText().toString());
 		startService(startCountdownIntent);
 		
 		resultTextView.setText("Waiting....");
