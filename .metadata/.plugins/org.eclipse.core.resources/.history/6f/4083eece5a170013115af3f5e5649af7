@@ -7,9 +7,10 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
+    <permission>
         <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     	<uses-permission android:name="android.permission.INTERNET"/>
- 
+    </permission>
 
     <application
         android:allowBackup="true"

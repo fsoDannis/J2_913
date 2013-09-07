@@ -1,7 +1,5 @@
 package com.dinkydetails.weatherpull;
 
-import java.net.URLEncoder;
-
 import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
@@ -17,7 +15,7 @@ public class WeatherService extends IntentService{
 	 public static final String TIME_KEY = "time";
 	 //-->public static final String SEARCH_STRING = "user_input";
 	 
-	 //-->Messenger messenger;
+	 //-->MEssenger messenger;
 	 //-->Message message;
 	 //-->String search_string;
 	 
@@ -41,12 +39,6 @@ public class WeatherService extends IntentService{
 		//-->search_string = (String)extras.getString(SEARCH_STRING);
 		
 		//11:27 Google Hangout
-		//--> try {
-		//-->search_string = URLEncoder.encode(search_string, "UTF-8")
-		
-				
-				
-				
 		int countdown = 10;
 		try{
 			countdown = Integer.parseInt(timer);
