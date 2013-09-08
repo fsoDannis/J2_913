@@ -74,7 +74,7 @@ public class WeatherService extends IntentService{
 				}
 			}	
 		}
-		//publishResults(output.getAbsolutePath(), result);
+		publishResults(output.getAbsolutePath(), result);
 
 	}
 

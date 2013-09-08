@@ -14,6 +14,8 @@ import android.os.Environment;
 
 public class WeatherService extends IntentService{
 
+//	public static final String MESSENGER_KEY = "messenger";
+//	public static final String SEARCH_STRING = "zipCode";
 	public static final String URL_STRING = "finalURL";
 	public static final String FILENAME = "filename";
 	public static final String FILEPATH = "filepath";
@@ -74,7 +76,7 @@ public class WeatherService extends IntentService{
 				}
 			}	
 		}
-		//publishResults(output.getAbsolutePath(), result);
+		publishResults(output.getAbsolutePath(), result);
 
 	}
 
