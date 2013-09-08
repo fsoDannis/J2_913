@@ -84,28 +84,28 @@ public class WeatherService extends IntentService{
 				URI[] uri = new URI[1];
 				try{
 					uri[0] = new URI(finalURL.toString());
-				}catch (URISyntaxException e5){
-					e5.printStackTrace();
+				}catch (URISyntaxException e){
+					e.printStackTrace();
 				}
 				
 				JSONObject json = null;
 				try{
 					json=new JSONObject(response);
 					Log.i("JSON RESPONSE", "Valid JSON response");
-				}catch (JSONException e1){
+				}catch (JSONException e){
 					Log.e("ERROR StoreJSON", uri.toString());
-					Log.e("ERROR StoreJSON", e1.getMessage().toString());
+					Log.e("ERROR StoreJSON", e.getMessage().toString());
 				}
 				
 				if (json != null){
 					DataStorage.storeStringFile(getBaseContext(), "my_data.txt",json.toString());
 				}
 				
-			} catch (MalformedURLException e2){
+			} catch (MalformedURLException e){
 				Log.e("BAD URL", "Malformed URL");
 				finalURL = null;
-			}catch (IOException e3){
-				e3.printStackTrace();
+			}catch (IOException e){
+				e.printStackTrace();
 			}
 		}
 		else{
@@ -121,12 +121,45 @@ public class WeatherService extends IntentService{
 			
 			Log.d("Service Class", "onHandleIntent()");
 			
-		}catch (RemoteException e4){
+		}catch (RemoteException e){
 			Log.e("Exception On Handle Intent", e.getMessage().toString());
-			e4.printStackTrace();
+			e.printStackTrace();
 		}
 	}
-}	
-}		
+				
+				
+/*				
+		int countdown = 10;
+		try{
+			countdown = Integer.parseInt(timer);
+		}catch (Exception e){
+			Log.e("onHandleIntent", e.getMessage().toString());
+		}
+		
+		while (countdown > 0)
+		{
+			try{
+				Thread.sleep(1000);
+			}catch (InterruptedException e){
+				Log.e("Sleep", e.getMessage().toString());
+				e.printStackTrace();
+			}
+			countdown --;
+			
+			Log.i("onHandleIntent", "Counter= "+ String.valueOf(countdown));
+		}
+		Log.i("onHandleIntent", "Counter is Done");
+		
+		Message message= Message.obtain();
+		message.arg1 = Activity.RESULT_OK;
+		message.obj ="Service is Done";
+		
+		try {
+			messenger.send(message);
+		} catch (RemoteException e) {
+			Log.e("onHandleIntent", e.getMessage().toString());
+			e.printStackTrace();
+		}
+	}*/
 
-
+}
