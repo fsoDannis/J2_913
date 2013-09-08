@@ -1,6 +1,5 @@
 package com.dinkydetails.weatherpull;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -94,50 +93,55 @@ public class MainActivity extends Activity {
 		
 		String tempURL = "";
 		tempURL = new String(baseURL + zipText + ".json");
-			
-		URL finalURL;
-		
+			Log.i("JSON URL", tempURL);
+		URL FinalURL;
 		try{
-			finalURL = new URL(tempURL);
-			//Log.i("FINAL URL", finalURL.toString());
+			finalURL = new URL(tempUrl);
 			
-			Messenger myMessenger = new Messenger(myDataHandler);
-            Intent myIntent = new Intent(_context, WeatherService.class);
-            myIntent.putExtra("messenger", myMessenger);
-            myIntent.putExtra("zipCode", zipText);
-            myIntent.putExtra("finalURL", finalURL.toString());
-            
-            //Starting Service
-            startService(myIntent);
+			
+			
+			String response = null;	
+			
+			if (msg.arg1 == RESULT_OK && msg.obj !=null ){
+				try{
+					response = (String) msg.obj; 
+					Log.i("JSON DATA", response);
+					
+					//search_string may be ZipCode
+					displayData(search_string);
+					
+				}
+				catch (Exception e){
+					Log.e("JSON Response", e.toString());
+				}
+				}
+			}
+		};
 		
-		} catch (MalformedURLException e){
-			Log.e("BAD URL", "MALFORMED URL");
-			tv_city.setText("Your CITY must be COLD... Temp UNKNOWN!");
-			tv_state.setText("Your STATE must be COLD... Temp UNKNOWN!");
-			tv_feelsLike.setText("You must be COLD... Temp UNKNOWN!");
-			tv_actualTemp.setText("You must be COLD... Temp UNKNOWN!");
-			editTextZipCode.setText(tempURL);
-		} finally {
-			// This is done even if try block fails
-			Log.i("LOG", "It Ran...");
+		Messenger myDataMessenger = new Messenger(myDataHandler);
+		
+		Intent startDataServiceIntent = new Intent (getBaseContext(), WeatherService.class);
+		startDataServiceIntent.putExtra("messenger", myDataMessenger);
+		startDataServiceIntent.putExtra("user_input", search_string);
+		startService(startDataServiceIntent);
+		
+		resultTextView.setText("Waiting....");
+		
+		}
+	});
+    
+	if (savedInstanceState  != null){
+		Log.i("SAVE INSTANCE", "saving instance");
+		
+		myList = (ArrayList<HashMap<String,String>>) savedInstanceState.getSerializable("saved");
+		
+		if (myList != null){
+			SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_row);
+				new String[] {"artist", "title", "place"}, new int[] {R.id.artist, R.id.title, R.id.place};
+				
+				listview.setAdapter(adapter)
 		}
 	}
-        });
-
-	////////NEEED TO FIX THIS INSTANCE STATE THINGY		
-    
-//        if (savedInstanceState  != null){
-//        	Log.i("SAVE INSTANCE", "saving instance");
-//
-//        	myList = (ArrayList<HashMap<String,String>>) savedInstanceState.getSerializable("saved");
-//
-//        	if (myList != null){
-//        		SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_row);
-//        		new String[] {"artist", "title", "place"}, new int[] {R.id.artist, R.id.title, R.id.place};
-//
-//        		listview.setAdapter(adapter)
-//        	}
-//        }
 	}
 	
 	public void displayData(String Something){
