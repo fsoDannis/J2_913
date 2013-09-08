@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -29,12 +28,14 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
-	//Variable's for UI
-	private EditText editTextZipCode = null;
-	private Button buttonSearch = null;
-	private TextView resultTextView = null;
+	public EditText editTextZipCode = null;
+	ListView listview;
+	//private Button buttonSearch = null;
+	private TextView tv_city,tv_state,tv_feelsLike,tv_actualTemp;
 	
 	//Other Declarations
+	Context _context;
+	Boolean _connected = false;
 	static final String baseURL = "http://api.wunderground.com/api/a988d453ebe759ad/conditions/q/";
 
 	//JSONObject results
