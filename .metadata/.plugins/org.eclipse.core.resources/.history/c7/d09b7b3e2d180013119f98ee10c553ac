@@ -39,27 +39,10 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_city"
+        android:id="@+id/resultTextView"
         android:layout_width="286dp"
         android:layout_height="wrap_content"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/tv_state"
-        android:layout_width="286dp"
-        android:layout_height="wrap_content"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/tv_feelsLike"
-        android:layout_width="286dp"
-        android:layout_height="wrap_content"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/tv_actualTemp"
-        android:layout_width="286dp"
-        android:layout_height="wrap_content"
+        android:layout_weight="0.83"
         android:text="" />
 
 </LinearLayout>

@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,12 +23,11 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnClickListener{
 
 	private EditText editTextZipCode = null;
 	private Button buttonSearch = null;
-	private TextView tv_city,tv_state,tv_feelsLike,tv_actualTemp;
-	
+	private TextView resultTextView = null;
 	
 	
 	
@@ -38,28 +38,34 @@ public class MainActivity extends Activity {
         //View Set Up
         setContentView(R.layout.activity_main);
         
-        //Setting up the Individual Views
+        
         editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
         buttonSearch = (Button) findViewById(R.id.buttonSearch);
+        buttonSearch.setOnClickListener(this);
+        
+        resultTextView = (TextView) findViewById(R.id.resultTextView);
+        
+    }
 
-        
-        //Place where things are going to be displayed
-        tv_city = (TextView) findViewById(R.id.tv_city);
-        tv_state = (TextView) findViewById(R.id.tv_state);
-        tv_feelsLike = (TextView) findViewById(R.id.tv_feelsLike);
-        tv_actualTemp = (TextView) findViewById(R.id.tv_actualTemp);
-        
-        //Button Listener
-        buttonSearch.setOnClickListener(new OnClickListener(){
-    
-        	
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+
 	@Override
 	public void onClick(View v) {
+		// TODO Auto-generated method stub
 		
-		//Grab the text that is entered.
-		String zipText = editTextZipCode.getText().toString();
 		
-
+		
+		if (editTextZipCode.getText().toString().length()==0){
+			Toast.makeText(this, "Please Enter a Valid Zip Code!", Toast.LENGTH_LONG).show();
+			return;
+		}
 		
 		
 		Handler myDataHandler = new Handler(){
@@ -154,12 +160,3 @@ public class MainActivity extends Activity {
 		@Override
 		
 }
-
-	
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }

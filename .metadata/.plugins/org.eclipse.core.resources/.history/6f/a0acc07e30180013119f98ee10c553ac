@@ -17,10 +17,6 @@ public class WebConnection {
 static Boolean _conn = false; //always assume there's no connection
 static String _connectionType = "Unavailable"; //unavailable by default
 
-public static String getConnectionType(Context context){ //runs function
-	netInfo(context);
-	return _connectionType;
-}
 
 public static Boolean getConnectionStatus(Context context){ //returns boolean
 	netInfo(context);

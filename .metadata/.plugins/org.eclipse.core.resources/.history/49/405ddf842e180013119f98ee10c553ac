@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,7 +23,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnClickListener{
 
 	private EditText editTextZipCode = null;
 	private Button buttonSearch = null;
@@ -57,7 +58,7 @@ public class MainActivity extends Activity {
 	public void onClick(View v) {
 		
 		//Grab the text that is entered.
-		String zipText = editTextZipCode.getText().toString();
+		zipText = editTextZipCode.getText().toString();
 		
 
 		

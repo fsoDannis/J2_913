@@ -48,7 +48,6 @@ public class WeatherService extends IntentService{
 		Log.i("onHandleIntent", "started");
 
 		Bundle extras = intent.getExtras();
-		
 		messenger = (Messenger)extras.get(MESSENGER_KEY);
 		search_string = (String)extras.getString(SEARCH_STRING);
 
