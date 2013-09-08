@@ -37,16 +37,17 @@ public class MainActivity extends Activity {
 	//Other Declarations
 	static final String baseURL = "http://api.wunderground.com/api/a988d453ebe759ad/conditions/q/";
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	
+  //  @Override
+  //  protected void onCreate(Bundle savedInstanceState) {
+  //      super.onCreate(savedInstanceState);
 
     
-        		@Override
-	public void onClick(View v) {
+        	
+//	@Override
+	//public void onClick(View v) {
 		
-		//Grab the text that is entered.
+	/*	//Grab the text that is entered.
 		String zipText = editTextZipCode.getText().toString();
 		
 		//Hide the Keyboard
@@ -104,18 +105,18 @@ public class MainActivity extends Activity {
 
 	////////NEEED TO FIX THIS INSTANCE STATE THINGY		
     
-       if (savedInstanceState  != null){
-       	Log.i("SAVE INSTANCE", "saving instance");
-
-        	myList = (ArrayList<HashMap<String,String>>) savedInstanceState.getSerializable("saved");
-
-        	if (myList != null){
-        		SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_row);
-        		new String[] {"artist", "title", "place"}, new int[] {R.id.artist, R.id.title, R.id.place};
-
-       		listview.setAdapter(adapter)
-        	}
-        }
+//        if (savedInstanceState  != null){
+//        	Log.i("SAVE INSTANCE", "saving instance");
+//
+//        	myList = (ArrayList<HashMap<String,String>>) savedInstanceState.getSerializable("saved");
+//
+//        	if (myList != null){
+//        		SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_row);
+//        		new String[] {"artist", "title", "place"}, new int[] {R.id.artist, R.id.title, R.id.place};
+//
+//        		listview.setAdapter(adapter)
+//        	}
+//        }
 	}
 	
 	public void displayData(String Something){
@@ -168,9 +169,9 @@ public class MainActivity extends Activity {
 
 	
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }*/
