@@ -181,11 +181,12 @@ public class MainActivity extends Activity {
 					JSONObject message = null;
 					//Weather result = null;
 
+					//	try {
 
-					JSONObject jo = inputArray.getJSONObject(i);
+					//JSONObject jo = inputArray.getJSONObject(i);
 					message = (new JSONObject(response)).getJSONObject("current_observation");
 					//	result = new Weather();
-					String city = message.getJSONObject("display_location").getString("city");
+					String city = .message.getJSONObject("display_location").getString("city");
 					String state = message.getJSONObject("display_location").getString("state");
 					String feelsLike = message.getString("feelslike_string");
 					String actualTemp =message.getString("temp_f");

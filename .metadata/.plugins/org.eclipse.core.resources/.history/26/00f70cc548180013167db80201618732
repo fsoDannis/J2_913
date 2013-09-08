@@ -178,11 +178,9 @@ public class MainActivity extends Activity {
 					String url = String.format(baseURL + editTextZipCode + ".json");
 					String response = url;
 
-					JSONObject message = null;
-					//Weather result = null;
-
-
-					JSONObject jo = inputArray.getJSONObject(i);
+					JSONObject message = inputArray.getJSONObject(i);
+					
+					
 					message = (new JSONObject(response)).getJSONObject("current_observation");
 					//	result = new Weather();
 					String city = message.getJSONObject("display_location").getString("city");
