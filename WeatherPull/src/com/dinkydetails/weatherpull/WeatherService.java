@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+
 import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.os.Environment;
 
 public class WeatherService extends IntentService{
 
+	private int result = Activity.RESULT_CANCELED;
 	public static final String URL_STRING = "finalURL";
 	public static final String FILENAME = "filename";
 	public static final String FILEPATH = "filepath";
@@ -74,7 +76,7 @@ public class WeatherService extends IntentService{
 				}
 			}	
 		}
-		//publishResults(output.getAbsolutePath(), result);
+		publishResults(output.getAbsolutePath(), result);
 
 	}
 

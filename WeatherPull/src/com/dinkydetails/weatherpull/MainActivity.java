@@ -7,27 +7,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-import org.json.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-
+	
 	public EditText editTextZipCode = null;
-	private Button buttonSearch = null;
+	ListView listview;
+	//private Button buttonSearch = null;
 	private TextView tv_city,tv_state,tv_feelsLike,tv_actualTemp;
-
+	
 	//Other Declarations
 	Context _context;
 	Boolean _connected = false;
@@ -35,6 +40,7 @@ public class MainActivity extends Activity {
 
 	//JSONObject results
 	HashMap<String, String> _history;
+
 
 	// Used to receive messages back from the service.
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -78,17 +84,16 @@ public class MainActivity extends Activity {
 
 		//Setting up the Individual Views
 		editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
-		buttonSearch = (Button) findViewById(R.id.buttonSearch);
+		//buttonSearch = (Button) findViewById(R.id.buttonSearch);
 
 
 		//Place where things are going to be displayed
-		tv_city = (TextView) findViewById(R.id.tv_city);
-		tv_state = (TextView) findViewById(R.id.tv_state);
-		tv_feelsLike = (TextView) findViewById(R.id.tv_feelsLike);
-		tv_actualTemp = (TextView) findViewById(R.id.tv_actualTemp);
+//		tv_city = (TextView) findViewById(R.id.tv_city);
+//		tv_state = (TextView) findViewById(R.id.tv_state);
+//		tv_feelsLike = (TextView) findViewById(R.id.tv_feelsLike);
+//		tv_actualTemp = (TextView) findViewById(R.id.tv_actualTemp);
 
-		//Button Listener
-		//buttonSearch.setOnClickListener(new OnClickListener(){
+		
 	}
 
 
@@ -105,12 +110,14 @@ public class MainActivity extends Activity {
 		unregisterReceiver(receiver);
 	}
 
+	
+	
 	public void onClick(View view) {
 
 		// Detect network connection
 		_connected = WebConnection.getConnectionStatus(_context);
 		if(_connected == true){
-			Log.i("Newwork Connection", WebConnection.getConnectionType(_context));
+			Log.i("Connection", WebConnection.getConnectionType(_context));
 
 			Intent intent = new Intent(this, WeatherService.class);
 			EditText field = (EditText) findViewById(R.id.editTextZipCode);
@@ -121,7 +128,7 @@ public class MainActivity extends Activity {
 			intent.putExtra(WeatherService.FILENAME, "JSONData.txt");
 			intent.putExtra(WeatherService.URL_STRING,baseURL + zipCode + ".json");
 			startService(intent);
-			editTextZipCode.setText("Downloading the Data");
+			//editTextZipCode.setText("Downloading the Data");
 		} else {
 			editTextZipCode.setText("Whoops Not Connected");
 			Toast.makeText(MainActivity.this,
@@ -176,7 +183,7 @@ public class MainActivity extends Activity {
 
 					//	try {
 
-					JSONObject jo = inputArray.getJSONObject(i);
+				//	JSONObject jo = inputArray.getJSONObject(i);
 					message = (new JSONObject(response)).getJSONObject("current_observation");
 					//	result = new Weather();
 					String city = message.getJSONObject("display_location").getString("city");
@@ -204,8 +211,10 @@ public class MainActivity extends Activity {
 				editTextZipCode.setText("No results for entered zip");
 
 			}
+			SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_row,
+					new String[] { "city", "state", "feelsLike", "actualTemp"}, new int[] {R.id.city, R.id.state, R.id.feelsLike, R.id.actualTemp});
 
-//PRINT THE STUFF
+					listview.setAdapter(adapter);
 			
 			
 
