@@ -99,6 +99,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 	
 	
+	
+
+
 	////////NEEED TO FIX THIS INSTANCE STATE THINGY		 -- MOVED UP to TOP
 /*    
        if (savedInstanceState  != null){
@@ -115,21 +118,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 	}*/
 	
+	public void displayData(String Something){
 		
-		public void displayData(String Something) {
-
-			String JSONString = DataStorage.readStringFile("my_data.txt");
-			JSONObject response = null;
-			String city = "N/A";
-			String state = "N/A";
-			String feelslike_string = "N/A";
-			String temp_f = "N/A";
-			String wind_string = "N/A";
-			String wind_dir = "N/A";
-			String visibility_mi = "N/A";
-			String forcecast_url = "N/A";
-		
-	
+		if(this.myList != null){
+			this.myList.clear();
+		}
+		String JSONString = DataStorage.readStringFile(getBaseContext(), "my_data.txt");
 		
 		JSONObject job = null;
 		JSONArray recordArray = null;
