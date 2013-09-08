@@ -10,7 +10,7 @@ import android.view.*;
 import android.view.inputmethod.*;
 import android.widget.*;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity {
 	
 	//Variable's for UI
 	private EditText editTextZipCode = null;
@@ -26,84 +26,72 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		//setting up UI widgets
 		resultTextView = (TextView) findViewById(R.id.resultTextView);
 		editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
+		editTextZipCode
 		
-		//Look for any changes in the Edit Text and save the info to pass later
-		editTextZipCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-					searchWeather(editTextZipCode.getText().toString().trim());
-					return true;
-				}
-				return false;
-			}
-		});
-		
-		//Simple Button with Listener
-		buttonSearch = (Button) findViewById(R.id.buttonSearch);
-		buttonSearch.setOnClickListener(this);
-
-	}
-
-	@Override
+    
+        		@Override
 	public void onClick(View v) {
-		if (editTextZipCode.getText().toString().length() == 0) {
-			Toast.makeText(this, "Please Enter a Valid Zip Code!",
-					Toast.LENGTH_LONG).show();
-			return;
-		}
-
-		searchWeather(editTextZipCode.getText().toString().trim());
-
-	}
-	
-	private void searchWeather(final String search_string) {
-		//Close Keyboard after Entry
+		
+		//Grab the text that is entered.
+		String zipText = editTextZipCode.getText().toString();
+		
+		//Hide the Keyboard
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(editTextZipCode.getWindowToken(), 0);
+		imm.hideSoftInputFromWindow(buttonSearch.getWindowToken(), 0);
 
-		Handler myDataHandler = new Handler() {
-			@Override
+		//Detect Network Connection
+		_connected = WebConnection.getConnectionStatus(_context); 
+		if(_connected){
+		Log.i("NETWORK CONNECTION ", WebConnection.getConnectionType(_context)); 
+		}
+		
+		//CallBack Method
+		Handler myDataHandler = new Handler(){
+
 			public void handleMessage(Message msg) {
-				Log.i("SERVICE", "handlemessage() called");
-				String response = null;
-
-				if (msg.arg1 == RESULT_OK && msg.obj != null) {
-					try {
-						response = (String) msg.obj;
-						Log.i("JSON DATA", response);
-
-						// search_string may be ZipCode
-						displayData(search_string);
-
-					} catch (Exception e) {
-						Log.e("JSON Response", e.toString());
-					}
-				}
+				super.handleMessage(msg);
+				
+				updateInfo();
 			}
 		};
-		//Setting up Messenger to the Service
-		Messenger myDataMessenger = new Messenger(myDataHandler);
-
-		Intent startDataServiceIntent = new Intent(getBaseContext(),
-				WeatherService.class);
-		startDataServiceIntent.putExtra("messenger", myDataMessenger);
-		startDataServiceIntent.putExtra("user_input", search_string);
-		startService(startDataServiceIntent);
-		//Show that the service is started and waiting information
-		resultTextView.setText("Waiting....");
+		
+		
+		String tempURL = "";
+		tempURL = new String(baseURL + zipText + ".json");
+			
+		URL finalURL;
+		
+		try{
+			finalURL = new URL(tempURL);
+			//Log.i("FINAL URL", finalURL.toString());
+			
+			Messenger myMessenger = new Messenger(myDataHandler);
+            Intent myIntent = new Intent(_context, WeatherService.class);
+            myIntent.putExtra("messenger", myMessenger);
+            myIntent.putExtra("zipCode", zipText);
+            myIntent.putExtra("finalURL", finalURL.toString());
+            
+            //Starting Service
+            startService(myIntent);
+		
+		} catch (MalformedURLException e){
+			Log.e("BAD URL", "MALFORMED URL");
+			tv_city.setText("Your CITY must be COLD... Temp UNKNOWN!");
+			tv_state.setText("Your STATE must be COLD... Temp UNKNOWN!");
+			tv_feelsLike.setText("You must be COLD... Temp UNKNOWN!");
+			tv_actualTemp.setText("You must be COLD... Temp UNKNOWN!");
+			editTextZipCode.setText(tempURL);
+		} finally {
+			// This is done even if try block fails
+			Log.i("LOG", "It Ran...");
+		}
 	}
-	
-	
-	
+        });
 
-
-	////////NEEED TO FIX THIS INSTANCE STATE THINGY		 -- MOVED UP to TOP
-/*    
+	////////NEEED TO FIX THIS INSTANCE STATE THINGY		
+    
        if (savedInstanceState  != null){
        	Log.i("SAVE INSTANCE", "saving instance");
 
@@ -116,7 +104,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
        		listview.setAdapter(adapter)
         	}
         }
-	}*/
+	}
 	
 	public void displayData(String Something){
 		
