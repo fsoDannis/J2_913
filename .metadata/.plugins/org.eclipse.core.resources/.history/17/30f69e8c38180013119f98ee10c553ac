@@ -115,7 +115,7 @@ public class MainActivity extends Activity {
 	public void onClick(View view) {
 
 		// Detect network connection
-		_connected = WebConnection.getConnectionStatus(_context);
+		_connected = WebStuff.getConnectionStatus(_context);
 		if(_connected == true){
 			Log.i("Newwork Connection", WebConnection.getConnectionType(_context));
 
@@ -123,16 +123,18 @@ public class MainActivity extends Activity {
 			EditText field = (EditText) findViewById(R.id.editTextZipCode);
 			String zipCode = field.getText().toString().toUpperCase(Locale.US);
 			// Populate values that will be supplied to the service
-			
+			// intent.putExtra(MyService.FILENAME, "index.html");
 
-			intent.putExtra(WeatherService.FILENAME, "JSONData.txt");
-			intent.putExtra(WeatherService.URL_STRING,baseURL + zipCode + ".json");
+			intent.putExtra(MyService.FILENAME, "JSONData.txt");
+			intent.putExtra(MyService.URL,
+					"http://api.8coupons.com/v1/getdeals?key=67714ceb7f857482a7f3e890ae52a8730c7d60663de10661e527d93a9236c547a1c5c3d15f1cb29e6aa3430a54a2091b&zip="
+							+ zipCode + "&categoryid=1&format=json");
 			startService(intent);
-			editTextZipCode.setText("Downloading the Data");
+			editText.setText("Download Commencing");
 		} else {
-			editTextZipCode.setText("Whoops Not Connected");
+			editText.setText("Not Connected to Internet");
 			Toast.makeText(MainActivity.this,
-					"Saving Data",
+					"Attempting to use saved data.",
 					Toast.LENGTH_LONG).show();
 		}
 		}
@@ -142,14 +144,14 @@ public class MainActivity extends Activity {
 	
 	
 	
-  //  @Override
-  //  protected void onCreate(Bundle savedInstanceState) {
-  //      super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
     
         	
-//	@Override
-	//public void onClick(View v) {
+	@Override
+	public void onClick(View v) {
 		
 		//Grab the text that is entered.
 		String zipText = editTextZipCode.getText().toString();
