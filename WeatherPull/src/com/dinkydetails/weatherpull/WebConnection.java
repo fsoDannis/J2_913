@@ -4,101 +4,62 @@ import java.io.BufferedInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-
 public class WebConnection {
-static Boolean _conn = false; //always assume there's no connection
-static String _connectionType = "Unavailable"; //unavailable by default
 
-public static String getConnectionType(Context context){ //runs function
-	netInfo(context);
-	return _connectionType;
-}
+	static Boolean _conn = false;
+	static String _connectionType = "Unavailable";
 
-public static Boolean getConnectionStatus(Context context){ //returns boolean
-	netInfo(context);
-	return _conn; //returns connection status
-}
-
-
-private static void netInfo(Context context){
-	
-	//creating 2 values representing if connected and what type of connection
-	ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-	NetworkInfo ni = cm.getActiveNetworkInfo();//gets dynamic network info.
-	
-	if(ni != null){
-		if(ni.isConnected()){
-			_connectionType = ni.getTypeName();// connection type
-			_conn = true;//actually have a connection
-		}
-
+	public static String getConnectionType(Context context) {
+		netInfo(context);
+		return _connectionType;
 	}
-}	
-/*
- * Working URL responder
- */
-public static String getURLSTringResponse(URL url){
-	String response = "";
 
-	
-	//try catch statement
-	try{
-		Log.d("WEB CONNECTION", "url="+url.toString());
-		URLConnection conn = url.openConnection();//open connection to a server
-		//accept the info url returns thru buffer input string
+	public static Boolean getConnectionStatus(Context context) {
+		netInfo(context);
+		return _conn;
+	}
 
-		BufferedInputStream bin = new BufferedInputStream(conn.getInputStream());//get data in order, get new stream and attach it to buffer
-
-		byte[] contentBytes = new byte[1024];
-		//loop thru bytes needed to get and keep track of them
-		int bytesRead = 0;
-		//holds data as it comes in as a string form.
-		StringBuffer responseBuffer = new StringBuffer();
-
-		//allow the bytes read to count up until the entire file is there
-		while((bytesRead = bin.read(contentBytes))!= -1){
-			response = new String(contentBytes,0,bytesRead);
-			//content buffered into a single string
-			responseBuffer.append(response);
-
+	private static void netInfo(Context context) {
+		ConnectivityManager cm = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo ni = cm.getActiveNetworkInfo();
+		if (ni != null) {
+			if (ni.isConnected()) {
+				_connectionType = ni.getTypeName();
+				_conn = true;
+			}
 		}
+	}
 
-		Log.d("WEB CONNECTION", "response"+response);
-		//Verify JSON String
-		JSONObject json = null;
+	// ASSUMING API RETURNS A STRING FROM A URL (IE YAHOO YQL)
+	public static String getURLStringResponse(URL url) {
+		String response = "";
+
 		try {
-			json = new JSONObject(response);
-			Log.i("JSON", "valid json object");
-		} catch (JSONException e) {
-			//TODO Auto-generated catch block
-			//Log.e("ERROR storeJSON", uri.toString());
-			Log.e("EXCEPTION", e.getMessage().toString());
+			URLConnection conn = url.openConnection();
+			BufferedInputStream bin = new BufferedInputStream(
+					conn.getInputStream());
+
+			byte[] contentBytes = new byte[1024];
+			int bytesRead = 0;
+			StringBuffer responseBuffer = new StringBuffer();
+
+			while ((bytesRead = bin.read(contentBytes)) != -1) {
+				response = new String(contentBytes, 0, bytesRead);
+				responseBuffer.append(response);
+			}
+			return responseBuffer.toString();
+		} catch (Exception e) {
+			Log.e("URL RESPONSE ERROR", "GetUtURLStringResponse");
 		}
 
-		if (json != null)
-		{
-			//Implement a Data Storage method
-			//DataFile.storeStringFile(context, "crystal_tide_data.txt", json.toString());
-		}
+		return response;
 
-
-
-		//response buffer holds all data
-		return responseBuffer.toString();
-	} catch (Exception e){
-		//Log.e("WebFile, URL RESPONSE ERROR", e.toString());
-		e.printStackTrace();
 	}
 
-
-	return response;
-}
 }
