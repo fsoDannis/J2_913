@@ -12,8 +12,6 @@ import android.widget.*;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 	
-	private static final String TAG = MainActivity.class.getSimpleName();
-	
 	//Variable's for UI
 	private EditText editTextZipCode = null;
 	private Button buttonSearch = null;
@@ -131,37 +129,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			String visibility_mi = "N/A";
 			String forcecast_url = "N/A";
 		try{
-			//Dig into the response object
 			response = new JSONObject(JSONString);
-			//grab the city
 			city = response.getJSONObject("current_observation")
 					.getJSONObject("display_location").getString("city");
-			//grab the state
-			state = response.getJSONObject("current_observation")
-					.getJSONObject("display_location").getString("state");
-			//grab the feels like weather
-			feelslike_string = response.getJSONObject("current_observation")
-					.getString("feelslike_string");
-			//grab the temp
-			temp_f = response.getJSONObject("current_observation").getString(
-					"temp_f");
-			//grab the wind
-			wind_string = response.getJSONObject("current_observation")
-					.getString("wind_string");
-			//grab the wind dir
-			wind_dir = response.getJSONObject("current_observation").getString(
-					"wind_dir");
-			//grab the wind visibility
-			visibility_mi = response.getJSONObject("current_observation")
-					.getString("visibility_mi");
-			//grab the forcast URL
-			forcecast_url = response.getJSONObject("current_observation")
-					.getString("forecast_url");
 			
 		} catch (Exception e) {
 			Log.e(TAG, e.getMessage());
 		}
-		// Take all the data and dump it into a textview
+
 		StringBuffer message = new StringBuffer();
 		message.append("city = ").append(city).append("\n");
 		message.append("state = ").append(state).append("\n");
@@ -173,7 +148,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		message.append("visibility_mi = ").append(visibility_mi).append("\n");
 		message.append("forecast_url = ").append(forcecast_url).append("\n");
 
-		//set the data 
 		resultTextView.setText(message);
 
 	}
