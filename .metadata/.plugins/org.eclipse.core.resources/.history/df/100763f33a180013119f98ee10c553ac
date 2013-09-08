@@ -180,26 +180,23 @@ public class MainActivity extends Activity {
 			{
 				try {	
 						String url = String.format(baseURL + editTextZipCode + ".json");
-						String response = url;
+						String response = connect(url);
 						
 						JSONObject message = null;
 						Weather result = null;
 						
 						try {
-						
-							JSONObject jo = inputArray.getJSONObject(i);
 							message = (new JSONObject(response)).getJSONObject("current_observation");
 							result = new Weather();
-							String city = message.getJSONObject("display_location").getString("city");
-							String state = message.getJSONObject("display_location").getString("state");
-							String feelsLike = message.getString("feelslike_string");
-							Float actualTemp =(float) message.getDouble("temp_f");
-							
-							HashMap<String, String>displayMap = new HashMap<String, String>();
-							displayMap.put("city", city);
-							displayMap.put("state", state);
-							displayMap.put("feelsLike", feelsLike);
-							displayMap.put("actualTemp", actualTemp);
+							result.setImage_url(message.getString("icon_url"));
+							result.setCity(message.getJSONObject("display_location").getString("city"));
+							result.setState(message.getJSONObject("display_location").getString("state"));
+							result.setFeelslike(message.getString("feelslike_string"));
+							result.setTemp_f((float) message.getDouble("temp_f"));
+							result.setWind(message.getString("wind_string"));
+							result.setWind_dir(message.getString("wind_dir"));
+							result.setVisibility_mi((float) message.getDouble("visibility_mi"));
+							result.setForecast_url(message.getString("forecast_url"));
 							
 							return result;
 						} catch (Exception e) {

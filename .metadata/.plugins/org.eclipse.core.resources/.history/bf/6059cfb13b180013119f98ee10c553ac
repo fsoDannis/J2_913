@@ -186,20 +186,12 @@ public class MainActivity extends Activity {
 						Weather result = null;
 						
 						try {
-						
-							JSONObject jo = inputArray.getJSONObject(i);
 							message = (new JSONObject(response)).getJSONObject("current_observation");
 							result = new Weather();
-							String city = message.getJSONObject("display_location").getString("city");
-							String state = message.getJSONObject("display_location").getString("state");
-							String feelsLike = message.getString("feelslike_string");
-							Float actualTemp =(float) message.getDouble("temp_f");
-							
-							HashMap<String, String>displayMap = new HashMap<String, String>();
-							displayMap.put("city", city);
-							displayMap.put("state", state);
-							displayMap.put("feelsLike", feelsLike);
-							displayMap.put("actualTemp", actualTemp);
+							result.setCity(message.getJSONObject("display_location").getString("city"));
+							result.setState(message.getJSONObject("display_location").getString("state"));
+							result.setFeelslike(message.getString("feelslike_string"));
+							result.setTemp_f((float) message.getDouble("temp_f"));
 							
 							return result;
 						} catch (Exception e) {

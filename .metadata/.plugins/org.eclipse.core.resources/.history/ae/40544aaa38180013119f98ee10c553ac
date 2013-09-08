@@ -1,17 +1,13 @@
 package com.dinkydetails.weatherpull;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.*;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +31,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	public EditText editTextZipCode = null;
+	private EditText editTextZipCode = null;
 	private Button buttonSearch = null;
 	private TextView tv_city,tv_state,tv_feelsLike,tv_actualTemp;
 	
@@ -142,76 +138,8 @@ public class MainActivity extends Activity {
 		}
 	
 	
-	public void displayData(){
-
-		ArrayList<HashMap<String, String>> myList = new ArrayList<HashMap<String, String>>();
-		int numberOfObjects = 0;
-		@SuppressWarnings("unused")
-		int length = -1;
-
-		try {
-			FileInputStream fis = openFileInput("JSONData.txt");
-			StringBuffer fileContent = new StringBuffer("");
-			byte[] buffer = new byte[1024];
-
-			try {
-
-				while ((length = fis.read(buffer)) != -1) {
-					fileContent.append(new String(buffer));
-				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
-
-			String JSONString = new String(fileContent);
-			JSONArray inputArray = null;
-			try {
-				inputArray = new JSONArray(JSONString);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			numberOfObjects = inputArray.length();
-			Log.i("numberOfObjects", "The number of objects is: " + numberOfObjects);
-
-			for (int i = 0; i < numberOfObjects; i++)
-			{
-				try {	
-						String url = String.format(baseURL + editTextZipCode + ".json");
-						String response = url;
-						
-						JSONObject message = null;
-						Weather result = null;
-						
-						try {
-						
-							JSONObject jo = inputArray.getJSONObject(i);
-							message = (new JSONObject(response)).getJSONObject("current_observation");
-							result = new Weather();
-							String city = message.getJSONObject("display_location").getString("city");
-							String state = message.getJSONObject("display_location").getString("state");
-							String feelsLike = message.getString("feelslike_string");
-							Float actualTemp =(float) message.getDouble("temp_f");
-							
-							HashMap<String, String>displayMap = new HashMap<String, String>();
-							displayMap.put("city", city);
-							displayMap.put("state", state);
-							displayMap.put("feelsLike", feelsLike);
-							displayMap.put("actualTemp", actualTemp);
-							
-							return result;
-						} catch (Exception e) {
-							Log.e(TAG, e.getMessage());
-							return null;
-						}
-					}
-					
-					
-					
-					
-					
+	
+	
 	
 	
   //  @Override
