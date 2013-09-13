@@ -28,11 +28,7 @@
 
         <service android:name="WeatherService" >
         </service>
-        <provider 
-            android:exported="true" 
-            android:name="myContentProvider" 
-            android:authorities="com.dinkydetails.weatherpull.myContentProvider">
-        </provider>
+        <provider android:exported="true" android:name="myContentProvider" android:authorities="com.dinkydetails.weatherpull.myContentProvider"></provider>
     </application>
 
 </manifest>
