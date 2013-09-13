@@ -1,9 +1,5 @@
 package com.dinkydetails.weatherpull;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -90,42 +86,15 @@ public class myContentProvider extends ContentProvider{
 		//Setting up cursor that will be returning to the projection created
 		MatrixCursor result = new MatrixCursor(myData.PROJECTION);
 		
-		//?????????? See second part of comment
 		//Make sure there is data to return from my DataStorage Class             //ASSUME FILE_NAME is somewhere in DataStorage once fixed to Internal
 		String JSONString = DataStorage.readStringFile(getContext(), myContentProvider.FILE_NAME);
-		JSONObject job = null;
-		JSONArray recordArray = null;
-		JSONObject field = null;
-		
-		//retrieve string
-		try{
-			job = new JSONObject(JSONString);
-			recordArray = job.getJSONArray(DataStorage.CONSTANT); //This is where some of my Objects may be
-		}catch (JSONException e){
-			e.printStackTrace();
-		}
-		
-		if(recordArray == null){
-			return result;  //return the empty cursor because there would be no data returned if null
-			
-		}
-		
-		
 		
 		//Testing the UriMatcher
 		switch(uriMatcher.match(uri)){
 		case ITEMS:
-			for (int i = 0; i < recordArray.length(); i++){						//see above comment
-				try{
-					field = recordArray.getJSONObject(i).getJSONObject(DataStorage.CONSTANT)//Grab JSON object  
-					result.addRow(new Object [] {i + 1, field.get(DataStorage.OBJECT),//See above
-							field.getJSONObject(DataStorage.YEAR),field.getJSONObject(DataStorage.PLACE)});
-				}catch (JSONException e){
-					e.printStackTrace();
-				}
-			}
+			return myData.CONTENT_TYPE;
 		case ITEMS_ID:
-			//return myData.CONTENT_ITEM_TYPE;
+			return myData.CONTENT_ITEM_TYPE;
 		}
 		return null;
 	}

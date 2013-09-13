@@ -34,8 +34,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		//setting up UI widgets
 		resultTextView = (TextView) findViewById(R.id.resultTextView);
 		editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
-		editTextZipCode.setText(myContentProvider.myData.CONTENT_URI.toString()); //Setting the text to the URI
-		
 		
 		//Look for any changes in the Edit Text and save the info to pass later
 		editTextZipCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
