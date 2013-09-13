@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 public class myContentProvider extends ContentProvider{
 	//Setting up the Authority
@@ -111,6 +110,8 @@ public class myContentProvider extends ContentProvider{
 			
 		}
 		
+		
+		
 		//Testing the UriMatcher
 		switch(uriMatcher.match(uri)){
 		case ITEMS:
@@ -123,47 +124,10 @@ public class myContentProvider extends ContentProvider{
 					e.printStackTrace();
 				}
 			}
-			
-			break;
-			
 		case ITEMS_ID:
-			String itemId = uri.getLastPathSegment();
-			Log.i("query id", itemId);
-			
-			int index; 
-			try{
-			index = Integer.parseInt(itemId);
-			}catch (NumberFormatException e){
-				Log.e("query",  "index format error");
-				break;
-			}
-			//make sure the index is valid against the size of data stored 
-			//Index is now in table format
-			if (index <- 0 || index > recordArray.length()){
-				Log.e("query",  "query out of range for" + uri.toString());
-				break;
-			}
-			
-			//now return result
-			try{
-			field = recordArray.getJSONObject(index -1).getJSONObject(DataStorage.CONSTANT)//Grab JSON object  
-					result.addRow(new Object [] {index + 1, field.get(DataStorage.OBJECT),//See above
-							field.getJSONObject(DataStorage.YEAR),field.getJSONObject(DataStorage.PLACE)});
-			}catch (JSONException e){
-				e.printStackTrace();
-			}
-			
-			
-			//STOPPED 5 MINUTES TILL SO I CAN FIGURE MINE OUT NOW... 
-			
-			break; 
-			//Show the invalid Uri
-			default:
-				Log.e("query", "invalid uri - "+ uri.toString());
-				 
 			//return myData.CONTENT_ITEM_TYPE;
 		}
-		return result;
+		return null;
 	}
 
 
