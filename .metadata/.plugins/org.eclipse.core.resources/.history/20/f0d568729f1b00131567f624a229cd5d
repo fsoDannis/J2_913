@@ -1,6 +1,3 @@
-//Dan Annis
-//Sept. 2013
-
 package com.dinkydetails.weatherpull;
 
 import org.json.*;
