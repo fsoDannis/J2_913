@@ -25,7 +25,7 @@ public class myContentProvider extends ContentProvider{
 		public static final String CONTENT_ITEM_TYPE = "vnd.cursor.android.item/vnd.dinkydetails.weatherpull.item";
 		  
 		// Define Columns of provided Data - This is the stuff that is going to be stored from JSON
-		//The definitions below will not be what I use for final... just following along in a video...
+		//The definitions below will not be what I use for final... just following along...
 		public static final String OBJECT_COLUMN = "object";
 		public static final String YEAR_COLUMN = "year";
 		public static final String PLACE_COLUMN = "place";
