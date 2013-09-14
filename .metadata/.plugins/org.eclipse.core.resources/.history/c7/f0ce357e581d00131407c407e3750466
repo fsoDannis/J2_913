@@ -41,8 +41,6 @@ public class myContentProvider extends ContentProvider{
 	//Creating the Uri Matchers  - All items from the JSON
 	public static final int ITEMS = 1;
 	public static final int ITEMS_ID = 2;
-	public static final int ITEMS_YEAR_FILTER = 3;
-	public static final int ITEMS_PLACE_FILTER = 4;
 	
 	//Class to compare Uri to make sure the data is valid
 	private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -160,47 +158,6 @@ public class myContentProvider extends ContentProvider{
 			
 			break; 
 			//Show the invalid Uri
-		case ITEMS_YEAR_FILTER:
-		
-		String yearRequested  = uri.getLastPathSegment();
-		
-		for (int i = 0; i < recordArray.length(); i++){						//see above comment
-			try{ 
-				field = recordArray.getJSONObject(i).getJSONObject(DataStorage.CONSTANT)//Grab JSON object  
-				
-						if(field.getString(DataStorage.YEAR).contentEquals(yearRequested)){
-							
-							result.addRow(new Object [] {i + 1, field.get(DataStorage.OBJECT),//See above
-							field.getJSONObject(DataStorage.YEAR),field.getJSONObject(DataStorage.PLACE)});
-				
-						}
-								}catch (JSONException e){
-				e.printStackTrace();
-			}
-		}
-		
-			break;
-			
-		case ITEMS_PLACE_FILTER:
-			
-			String placeRequested  = uri.getLastPathSegment();
-			
-			for (int i = 0; i < recordArray.length(); i++){						//see above comment
-				try{ 
-					field = recordArray.getJSONObject(i).getJSONObject(DataStorage.CONSTANT)//Grab JSON object  
-					
-							if(field.getString(DataStorage.JSON.PLACE).contentEquals(placeRequested)){
-								
-								result.addRow(new Object [] {i + 1, field.get(DataStorage.OBJECT),//See above
-								field.getJSONObject(DataStorage.YEAR),field.getJSONObject(DataStorage.PLACE)});
-					
-							}
-									}catch (JSONException e){
-					e.printStackTrace();
-				}
-			
-			break;
-			
 			default:
 				Log.e("query", "invalid uri - "+ uri.toString());
 				 

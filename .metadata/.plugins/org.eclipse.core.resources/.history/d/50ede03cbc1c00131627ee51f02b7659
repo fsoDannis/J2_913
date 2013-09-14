@@ -23,7 +23,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private TextView resultTextView = null;
 	
 	//Other Declarations
-	static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
+	static final String baseURL = "http://api.wunderground.com/api/a988d453ebe759ad/conditions/q/";
 
 
 	@Override
