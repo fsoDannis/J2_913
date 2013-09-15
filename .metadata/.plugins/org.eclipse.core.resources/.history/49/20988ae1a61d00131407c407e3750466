@@ -1,7 +1,6 @@
 //Dan Annis
 //Sept. 2013
 
-
 package com.dinkydetails.weatherpull;
 
 import org.json.*;
@@ -33,7 +32,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		setContentView(R.layout.activity_main);
 		
 		//setting up UI widgets
-		//resultTextView = (TextView) findViewById(R.id.resultTextView); //Using a List
+		resultTextView = (TextView) findViewById(R.id.resultTextView);
 		editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
 		editTextZipCode.setText(myContentProvider.myData.CONTENT_URI.toString()); //Setting the text to the URI
 		
