@@ -27,14 +27,12 @@ public class myContentProvider extends ContentProvider{
 	//Setting up the Authority
 	public static final String AUTHORITY= "com.dinkydetails.weatherpull.myContentProvider";
 	
-	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-			+ "/Weather");
 
 	public static class myData implements BaseColumns {
 		public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 				+ "/Weather");
 		public static final String CONTENT_TYPE = "vnd.cursor.android.dir/vnd.dinkydetails.weatherpull.item";
-	//	public static final String CONTENT_ITEM_TYPE = "vnd.cursor.android.item/vnd.dinkydetails.weatherpull.item";
+		public static final String CONTENT_ITEM_TYPE = "vnd.cursor.android.item/vnd.dinkydetails.weatherpull.item";
 		  
 		// Define Columns of provided Data - This is the stuff that is going to be stored from JSON
 		//The definitions below will not be what I use for final... just following along in a video...

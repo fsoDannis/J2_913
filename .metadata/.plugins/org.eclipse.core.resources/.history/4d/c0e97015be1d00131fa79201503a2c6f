@@ -18,7 +18,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.IntentService;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -101,35 +100,10 @@ public class WeatherService extends IntentService {
 						Log.e("ERROR StoreJSON", uri.toString());
 						Log.e("ERROR StoreJSON", je.getMessage().toString());
 					}
-					/**
-					 * Checking if JSON Response is null or not and saving all
-					 * the required values in the database
-					 */
+
 					if (json != null) {
-						String weekday = json
-								.getJSONObject("current_observation")
-								.getJSONObject("display_location")
-								.getString("city");
-
-						String temp = json.getJSONObject("current_observation")
-								.getString("temp_f");
-
-						String skyicon = json.getJSONObject(
-								"current_observation").getString("icon");
-						
-						System.out.println("Data to be inserted is = " + weekday + temp + skyicon);
-
-						ContentValues values = new ContentValues();
-						values.put(WeatherDb.KEY_WEEKDAY, weekday);
-						values.put(WeatherDb.KEY_FAHRENHEIT, temp);
-						values.put(WeatherDb.KEY_SKYICON, skyicon);
-
-						getContentResolver().insert(
-								myContentProvider.CONTENT_URI, values);
-						Log.i("Inserted", "Insertion of Data in DB Complete");
-
+						Weatherdb.storeStringFile("my_data.txt", json.toString());
 					}
-
 
 				} catch (MalformedURLException mue) {
 					Log.e("BAD URL", "Malformed URL");
