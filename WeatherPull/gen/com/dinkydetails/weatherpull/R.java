@@ -24,8 +24,6 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int 1day=0x7f080002;
-        public static final int 5day=0x7f080003;
         public static final int action_settings=0x7f08000b;
         public static final int buttonSearch=0x7f080001;
         public static final int cloud=0x7f080007;
@@ -33,7 +31,9 @@ public final class R {
         public static final int day=0x7f080005;
         public static final int dayrow=0x7f080008;
         public static final int editTextZipCode=0x7f080000;
+        public static final int fiveday=0x7f080003;
         public static final int list=0x7f080004;
+        public static final int oneday=0x7f080002;
         public static final int temp=0x7f080006;
         public static final int temprow=0x7f080009;
     }

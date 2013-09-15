@@ -39,14 +39,14 @@
     </LinearLayout>
 
             <Button
-                android:id="@+id/oneday"
+                android:id="@+id/1day"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="Get Next Day Forecast"
                 tools:ignore="ContentDescription" />
             
             <Button
-                android:id="@+id/fiveday"
+                android:id="@+id/5day"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="Get 5 Day Forecast"
