@@ -15,18 +15,12 @@ import android.util.Log;
 
 
 public class myContentProvider extends ContentProvider{
-	
-	private MyDataBaseHelper dbHelper;
-
-	private static final int ALL_DAYS = 1;
-	private static final int SINGLE_DAY = 2;
-	
 	//Setting up the Authority
 	public static final String AUTHORITY= "com.dinkydetails.weatherpull.myContentProvider";
 	
-
+	
 	public static class myData implements BaseColumns {
-		public static final Uri CONTENT_URI = Uri.parse("content//" + AUTHORITY + "/Weather");
+		public static final Uri CONTENT_URI = Uri.parse("content//" + AUTHORITY + "/items");
 		
 		public static final String CONTENT_TYPE = "vnd.cursor.android.dir/vnd.dinkydetails.weatherpull.item";
 		public static final String CONTENT_ITEM_TYPE = "vnd.cursor.android.item/vnd.dinkydetails.weatherpull.item";
@@ -55,11 +49,9 @@ public class myContentProvider extends ContentProvider{
 	private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	
 	//Setting up for the Uri
-	private static final UriMatcher uriMatcher;
 	static {
-		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		uriMatcher.addURI(AUTHORITY, "Weather/", ALL_DAYS);
-		uriMatcher.addURI(AUTHORITY, "Weather/#", SINGLE_DAY; //allow request of items by ID
+		uriMatcher.addURI(AUTHORITY, "items/", ITEMS);
+		uriMatcher.addURI(AUTHORITY, "items/#", ITEMS_ID); //allow request of items by ID
 	}
 	
 	
