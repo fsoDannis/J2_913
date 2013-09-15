@@ -6,11 +6,9 @@ package com.dinkydetails.weatherpull;
 
 import org.json.*;
 
-import android.net.Uri;
 import android.os.*;
 import android.app.*;
 import android.content.*;
-import android.database.Cursor;
 import android.util.*;
 import android.view.*;
 import android.view.inputmethod.*;
@@ -18,7 +16,7 @@ import android.widget.*;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 	
-	
+	private static final String TAG = MainActivity.class.getSimpleName();
 	
 	//Variable's for UI
 	private EditText editTextZipCode = null;
@@ -109,35 +107,82 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 	
 	
+	////////NEEED TO FIX THIS INSTANCE STATE THINGY		 -- MOVED UP to TOP
+/*    
+       if (savedInstanceState  != null){
+       	Log.i("SAVE INSTANCE", "saving instance");
+
+        	myList = (ArrayList<HashMap<String,String>>) savedInstanceState.getSerializable("saved");
+
+        	if (myList != null){
+        		SimpleAdapter adapter = new SimpleAdapter(this, myList, R.layout.list_row);
+        		new String[] {"artist", "title", "place"}, new int[] {R.id.artist, R.id.title, R.id.place};
+
+       		listview.setAdapter(adapter)
+        	}
+        }
+	}*/
 	
 		
-	/**
-	 * Fetching the data from local DB and displaying it in list
-	 */
-	public void displayData(String request) {
-		String[] data = { WeatherDb.KEY_ROWID, WeatherDb.KEY_WEEKDAY,
-				WeatherDb.KEY_FAHRENHEIT, WeatherDb.KEY_SKYICON };
-		Uri uri = Uri.parse(myContentProvider.CONTENT_URI + "/" + 1);
-		Cursor cursor = getContentResolver().query(uri, data, null, null, null);
-		if (cursor != null) {
-			cursor.moveToFirst();
-			String weekday = cursor.getString(cursor
-					.getColumnIndexOrThrow(WeatherDb.KEY_WEEKDAY));
-			String fahrenheit = cursor.getString(cursor
-					.getColumnIndexOrThrow(WeatherDb.KEY_FAHRENHEIT));
-			String skyicon = cursor.getString(cursor
-					.getColumnIndexOrThrow(WeatherDb.KEY_SKYICON));
+		public void displayData(String Something) {
 
-			StringBuffer msg = new StringBuffer();
-			msg.append("City = ").append(weekday).append("\n");
-			msg.append("Fahrenheit = ").append(fahrenheit).append("\n");
-			msg.append("Skyicon = ").append(skyicon).append("\n");
-			resultTextView.setText(msg);
+			String JSONString = Weatherdb.readStringFile("my_data.txt");
+			JSONObject response = null;
+			String city = "N/A";
+			String state = "N/A";
+			String feelslike_string = "N/A";
+			String temp_f = "N/A";
+			String wind_string = "N/A";
+			String wind_dir = "N/A";
+			String visibility_mi = "N/A";
+			String forcecast_url = "N/A";
+		try{
+			//Dig into the response object
+			response = new JSONObject(JSONString);
+			//grab the city
+			city = response.getJSONObject("current_observation")
+					.getJSONObject("display_location").getString("city");
+			//grab the state
+			state = response.getJSONObject("current_observation")
+					.getJSONObject("display_location").getString("state");
+			//grab the feels like weather
+			feelslike_string = response.getJSONObject("current_observation")
+					.getString("feelslike_string");
+			//grab the temp
+			temp_f = response.getJSONObject("current_observation").getString(
+					"temp_f");
+			//grab the wind
+			wind_string = response.getJSONObject("current_observation")
+					.getString("wind_string");
+			//grab the wind dir
+			wind_dir = response.getJSONObject("current_observation").getString(
+					"wind_dir");
+			//grab the wind visibility
+			visibility_mi = response.getJSONObject("current_observation")
+					.getString("visibility_mi");
+			//grab the forcast URL
+			forcecast_url = response.getJSONObject("current_observation")
+					.getString("forecast_url");
+			
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage());
 		}
+		// Take all the data and dump it into a textview
+		StringBuffer message = new StringBuffer();
+		message.append("city = ").append(city).append("\n");
+		message.append("state = ").append(state).append("\n");
+		message.append("feelslike_string = ").append(feelslike_string)
+				.append("\n");
+		message.append("temp_f = ").append(temp_f).append(" F\n");
+		message.append("wind_string = ").append(wind_string).append("\n");
+		message.append("wind_dir = ").append(wind_dir).append("\n");
+		message.append("visibility_mi = ").append(visibility_mi).append("\n");
+		message.append("forecast_url = ").append(forcecast_url).append("\n");
+
+		//set the data 
+		resultTextView.setText(message);
+
 	}
-	
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-	}
+
 }
+
