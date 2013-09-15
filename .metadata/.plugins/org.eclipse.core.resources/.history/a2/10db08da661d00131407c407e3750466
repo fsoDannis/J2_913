@@ -13,12 +13,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-//********************************************************\\
-//********************************************************\\
-//THIS CODE WAS STARTED USING A TUTORIAL AND NEEDS TO BE CHANGED TO WORK
-//********************************************************\\
-//********************************************************\\
-
 public class myContentProvider extends ContentProvider{
 	//Setting up the Authority
 	public static final String AUTHORITY= "com.dinkydetails.weatherpull.myContentProvider";
