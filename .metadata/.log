@@ -2402,3 +2402,15 @@ java.lang.ClassNotFoundException: com.android.i18n.phonenumbers.PhoneNumberUtil
 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:636)
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:591)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1450)
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2013-09-14 21:19:40.366
+!MESSAGE activity_main.xml: Couldn't resolve resource @string/enter_your_zip_code
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2013-09-14 21:19:40.505
+!MESSAGE activity_main.xml: Couldn't resolve resource @string/go
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2013-09-14 21:19:40.511
+!MESSAGE activity_main.xml: Couldn't resolve resource @string/enter_your_uri
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2013-09-14 21:19:40.513
+!MESSAGE activity_main.xml: Couldn't resolve resource @string/uri
