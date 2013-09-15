@@ -25,8 +25,7 @@ public class myContentProvider extends ContentProvider {
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		uriMatcher.addURI(AUTHORITY, "Weather", TEN_DAYS);
-		uriMatcher.addURI(AUTHORITY, "Weather/*", FIVE_DAYS);
+		uriMatcher.addURI(AUTHORITY, "Weather", ALL_DAYS);
 		uriMatcher.addURI(AUTHORITY, "Weather/#", SINGLE_DAY);
 	}
 
@@ -40,9 +39,7 @@ public class myContentProvider extends ContentProvider {
 	public String getType(Uri uri) {
 
 		switch (uriMatcher.match(uri)) {
-		case TEN_DAYS:
-			return "com.dinkydetails.weatherpull.Weather";
-		case FIVE_DAYS:
+		case ALL_DAYS:
 			return "com.dinkydetails.weatherpull.Weather";
 		case SINGLE_DAY:
 			return "com.dinkydetails.weatherpull.Weather";
@@ -55,9 +52,8 @@ public class myContentProvider extends ContentProvider {
 	public Uri insert(Uri uri, ContentValues values) {
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		
-
 		switch (uriMatcher.match(uri)) {
-		case TEN_DAYS:
+		case ALL_DAYS:
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -77,14 +73,12 @@ public class myContentProvider extends ContentProvider {
 		queryBuilder.setTables(WeatherDb.SQLITE_TABLE);
 
 		switch (uriMatcher.match(uri)) {
-		case TEN_DAYS:
-			queryBuilder.appendWhere(WeatherDb.KEY_PERIOD + "=" + 10);
-			break;
-		case FIVE_DAYS:
-			queryBuilder.appendWhere(WeatherDb.KEY_PERIOD + "=" + 10);
+		case ALL_DAYS:
+			// do nothing
 			break;
 		case SINGLE_DAY:
-			queryBuilder.appendWhere(WeatherDb.KEY_PERIOD + "=" + 10);
+			String id = uri.getPathSegments().get(1);
+			queryBuilder.appendWhere(WeatherDb.KEY_ROWID + "=" + id);
 			break;
 		default:
 			throw new IllegalArgumentException("Unsupported URI: " + uri);

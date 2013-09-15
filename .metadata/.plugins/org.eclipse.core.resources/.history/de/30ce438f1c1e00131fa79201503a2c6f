@@ -4,9 +4,6 @@
 
 package com.dinkydetails.weatherpull;
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.json.*;
 
 import android.net.Uri;
@@ -15,7 +12,6 @@ import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.*;
 import android.view.*;
 import android.view.inputmethod.*;
@@ -24,23 +20,14 @@ import android.widget.*;
 @SuppressLint("HandlerLeak")
 public class MainActivity extends Activity implements View.OnClickListener {
 	
-	ExpandableListAdapter listAdapter;
-	ExpandableListView expListView;
-	List<String> listDataHeader;
-	HashMap<String, List<String>> listDataChild;
-	
-	
 	//Variable's for UI
 	private EditText editTextZipCode = null;
 	private Button buttonSearch = null;
 	private TextView resultTextView = null;
 	
-	private Button btnFiveDays;
-	private Button btnTenDays;
-	
 	//Other Declarations
 	static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
-	private SQLiteDatabase db;
+
 
 
 	@Override
@@ -68,17 +55,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		//Simple Button with Listener
 		buttonSearch = (Button) findViewById(R.id.buttonSearch);
 		buttonSearch.setOnClickListener(this);
-		
-		btnFiveDays = (Button) findViewById(R.id.btnfive);
-		btnTenDays = (Button) findViewById(R.id.btnten);
-
-		btnFiveDays.setOnClickListener(this);
-		btnTenDays.setOnClickListener(this);
-
-		expListView = (ExpandableListView) findViewById(R.id.lvExp);
-
-		MyDataBaseHelper helper = new MyDataBaseHelper(this);
-		db = helper.getWritableDatabase();
 	}
 		
 
