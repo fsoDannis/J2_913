@@ -8,6 +8,7 @@ import org.json.*;
 
 import android.net.Uri;
 import android.os.*;
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
 import android.database.Cursor;
@@ -16,9 +17,8 @@ import android.view.*;
 import android.view.inputmethod.*;
 import android.widget.*;
 
+@SuppressLint("HandlerLeak")
 public class MainActivity extends Activity implements View.OnClickListener {
-	
-	
 	
 	//Variable's for UI
 	private EditText editTextZipCode = null;
@@ -29,35 +29,34 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
 
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
-		//setting up UI widgets
-		//resultTextView = (TextView) findViewById(R.id.resultTextView); //Using a List
+
+		resultTextView = (TextView) findViewById(R.id.resultTextView);
 		editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
-		editTextZipCode.setText(myContentProvider.myData.CONTENT_URI.toString()); //Setting the text to the URI
-		
-		
-		//Look for any changes in the Edit Text and save the info to pass later
-		editTextZipCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId,
-					KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-					searchWeather(editTextZipCode.getText().toString().trim());
-					return true;
-				}
-				return false;
-			}
-		});
-		
+
+		editTextZipCode
+				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_SEARCH
+								|| (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+							searchWeather(editTextZipCode.getText().toString()
+									.trim());
+							return true;
+						}
+						return false;
+					}
+				});
 		//Simple Button with Listener
 		buttonSearch = (Button) findViewById(R.id.buttonSearch);
 		buttonSearch.setOnClickListener(this);
-
 	}
+		
 
 	@Override
 	public void onClick(View v) {

@@ -1,6 +1,3 @@
-//Dan Annis
-//Sept. 2013
-
 package com.dinkydetails.weatherpull;
 
 import android.database.sqlite.SQLiteDatabase;
@@ -35,4 +32,3 @@ public class WeatherDb {
 	}
 
 }
-

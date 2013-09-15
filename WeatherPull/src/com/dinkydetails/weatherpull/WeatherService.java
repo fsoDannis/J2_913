@@ -1,8 +1,13 @@
-//Dan Annis
-//Sept. 2013
-
-
 package com.dinkydetails.weatherpull;
+
+/**
+ * This is our Service class that calls the API and fetches the data We still
+ * needs to add two more buttons to Main Activity to fetch data for
+ * corresponding days
+ * 
+ * @author admin
+ * 
+ */
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -32,6 +37,7 @@ import android.widget.Toast;
 
 public class WeatherService extends IntentService {
 
+	// Defining Constants
 	public static final String MESSENGER_KEY = "messenger";
 	public static final String SEARCH_STRING = "user_input";
 
@@ -39,28 +45,31 @@ public class WeatherService extends IntentService {
 	Message message;
 	String search_string;
 
+	// Class Constructor
 	public WeatherService() {
 		super("WeatherService");
-		// TODO Auto-generated constructor stub
 	}
+
+	/**
+	 * This method is used to make API call and fetch the data
+	 * 
+	 * @param intent
+	 */
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		
-		String baseURL = "http://api.wunderground.com/api/a988d453ebe759ad/forecast10day/q";
+		String baseURL = "http://api.wunderground.com/api/a988d453ebe759ad/conditions/q/";
 		String endURL = ".json";
 		URL finalURL;
 
-		Log.i("onHandleIntent", "started");
+		Log.i("onHandleIntent", "onHandleIntent started");
 
 		Bundle extras = intent.getExtras();
 		messenger = (Messenger) extras.get(MESSENGER_KEY);
 		search_string = (String) extras.getString(SEARCH_STRING);
 
-		
 		try {
 			search_string = URLEncoder.encode(search_string, "UTF-8");
-
 			ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
@@ -84,7 +93,7 @@ public class WeatherService extends IntentService {
 					}
 
 					response = responseBuffer.toString();
-					Log.i("JSON DATA", response);
+					Log.i("JSON DATA", "JSON Response = " + response);
 
 					URI[] uri = new URI[1];
 					try {
@@ -101,6 +110,7 @@ public class WeatherService extends IntentService {
 						Log.e("ERROR StoreJSON", uri.toString());
 						Log.e("ERROR StoreJSON", je.getMessage().toString());
 					}
+
 					/**
 					 * Checking if JSON Response is null or not and saving all
 					 * the required values in the database
@@ -130,7 +140,6 @@ public class WeatherService extends IntentService {
 
 					}
 
-
 				} catch (MalformedURLException mue) {
 					Log.e("BAD URL", "Malformed URL");
 					finalURL = null;
@@ -157,6 +166,7 @@ public class WeatherService extends IntentService {
 			}
 		} catch (Exception e) {
 			Log.e("Bad URL", "Encoding Problem");
+			e.printStackTrace();
 		}
 	}
 

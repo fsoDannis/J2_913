@@ -1,78 +1,43 @@
 package com.dinkydetails.weatherpull;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.provider.BaseColumns;
-import android.util.Log;
+import android.text.TextUtils;
 
+public class myContentProvider extends ContentProvider {
 
-public class myContentProvider extends ContentProvider{
-	
 	private MyDataBaseHelper dbHelper;
-	
-	//Creating the Uri Matchers  - All items from the JSON
+
 	private static final int ALL_DAYS = 1;
 	private static final int SINGLE_DAY = 2;
-	
-	//Setting up the Authority
-	public static final String AUTHORITY= "com.dinkydetails.weatherpull.myContentProvider";
-	
+
+	private static final String AUTHORITY = "com.dinkydetails.weatherpull.myContentProvider";
+
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/Weather");
 
-	public static class myData implements BaseColumns {
-		public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-				+ "/Weather");
-		public static final String CONTENT_TYPE = "vnd.cursor.android.dir/vnd.dinkydetails.weatherpull.item";
-	//	public static final String CONTENT_ITEM_TYPE = "vnd.cursor.android.item/vnd.dinkydetails.weatherpull.item";
-		  
-		// Define Columns of provided Data - This is the stuff that is going to be stored from JSON
-		//The definitions below will not be what I use for final... just following along in a video...
-		public static final String OBJECT_COLUMN = "object";
-		public static final String YEAR_COLUMN = "year";
-		public static final String PLACE_COLUMN = "place";
-		
-		// Defining the projections
-		public static final String [] PROJECTION= {"_id",OBJECT_COLUMN,YEAR_COLUMN,PLACE_COLUMN};
-		
-		// Define constructor for the Data - preventing access to certain things 
-		private  myData() {};
-		
-	}
-	
-	
-	//Class to compare Uri to make sure the data is valid
-	//Setting up for the Uri
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-		uriMatcher.addURI(AUTHORITY, "Weather/", ALL_DAYS);
-		uriMatcher.addURI(AUTHORITY, "Weather/#", SINGLE_DAY); //allow request of items by ID
+		uriMatcher.addURI(AUTHORITY, "Weather", ALL_DAYS);
+		uriMatcher.addURI(AUTHORITY, "Weather/#", SINGLE_DAY);
 	}
-	
-	
+
 	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+	public boolean onCreate() {
+		dbHelper = new MyDataBaseHelper(getContext());
+		return false;
 	}
 
 	@Override
 	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
-		
-		//Testing the UriMatcher
-		switch(uriMatcher.match(uri)){
+
+		switch (uriMatcher.match(uri)) {
 		case ALL_DAYS:
 			return "com.dinkydetails.weatherpull.Weather";
 		case SINGLE_DAY:
@@ -84,20 +49,24 @@ public class myContentProvider extends ContentProvider{
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
-	}
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		
+		switch (uriMatcher.match(uri)) {
+		case ALL_DAYS:
+			break;
+		default:
+			throw new IllegalArgumentException("Unsupported URI: " + uri);
+		}
 
-	@Override
-	public boolean onCreate() {
-		dbHelper = new MyDataBaseHelper(getContext());
-		return false;
+		long id = db.insert(WeatherDb.SQLITE_TABLE, null, values);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return Uri.parse(CONTENT_URI + "/" + id);
 	}
 
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-		
+
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(WeatherDb.SQLITE_TABLE);
@@ -121,8 +90,52 @@ public class myContentProvider extends ContentProvider{
 	}
 
 	@Override
-	public int update(Uri arg0, ContentValues arg1, String arg2, String[] arg3) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		switch (uriMatcher.match(uri)) {
+		case ALL_DAYS:
+			// do nothing
+			break;
+		case SINGLE_DAY:
+			String id = uri.getPathSegments().get(1);
+			selection = WeatherDb.KEY_ROWID
+					+ "="
+					+ id
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			break;
+		default:
+			throw new IllegalArgumentException("Unsupported URI: " + uri);
+		}
+		int deleteCount = db.delete(WeatherDb.SQLITE_TABLE, selection,
+				selectionArgs);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return deleteCount;
+	}
+
+	@Override
+	public int update(Uri uri, ContentValues values, String selection,
+			String[] selectionArgs) {
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		switch (uriMatcher.match(uri)) {
+		case ALL_DAYS:
+			// do nothing
+			break;
+		case SINGLE_DAY:
+			String id = uri.getPathSegments().get(1);
+			selection = WeatherDb.KEY_ROWID
+					+ "="
+					+ id
+					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
+							+ ')' : "");
+			break;
+		default:
+			throw new IllegalArgumentException("Unsupported URI: " + uri);
+		}
+
+		int updateCount = db.update(WeatherDb.SQLITE_TABLE, values, selection,
+				selectionArgs);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return updateCount;
 	}
 }
