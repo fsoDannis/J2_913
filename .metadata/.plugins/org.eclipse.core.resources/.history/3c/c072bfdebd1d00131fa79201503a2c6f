@@ -117,10 +117,4 @@ public class myContentProvider extends ContentProvider{
 		return cursor;
 
 	}
-
-	@Override
-	public int update(Uri arg0, ContentValues arg1, String arg2, String[] arg3) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
