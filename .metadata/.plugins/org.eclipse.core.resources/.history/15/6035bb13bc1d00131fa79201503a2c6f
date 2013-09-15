@@ -102,7 +102,7 @@ public class WeatherService extends IntentService {
 					}
 
 					if (json != null) {
-						Weatherdb.storeStringFile("my_data.txt", json.toString());
+						DataStorage.storeStringFile("my_data.txt", json.toString());
 					}
 
 				} catch (MalformedURLException mue) {

@@ -1,7 +1,6 @@
 //Dan Annis
 //Sept. 2013
 
-
 package com.dinkydetails.weatherpull;
 
 import java.io.BufferedInputStream;
@@ -45,8 +44,7 @@ public class WeatherService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		
-		String baseURL = "http://api.wunderground.com/api/a988d453ebe759ad/forecast10day/q";
+		String baseURL = "http://api.wunderground.com/api/a988d453ebe759ad/conditions/q/";
 		String endURL = ".json";
 		URL finalURL;
 
@@ -102,7 +100,7 @@ public class WeatherService extends IntentService {
 					}
 
 					if (json != null) {
-						Weatherdb.storeStringFile("my_data.txt", json.toString());
+						DataStorage.storeStringFile("my_data.txt", json.toString());
 					}
 
 				} catch (MalformedURLException mue) {

@@ -126,7 +126,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		
 		public void displayData(String Something) {
 
-			String JSONString = Weatherdb.readStringFile("my_data.txt");
+			String JSONString = DataStorage.readStringFile("my_data.txt");
 			JSONObject response = null;
 			String city = "N/A";
 			String state = "N/A";
