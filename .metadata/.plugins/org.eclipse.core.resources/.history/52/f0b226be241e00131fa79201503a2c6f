@@ -1,9 +1,3 @@
-// Dan Annis
-// JAVA 2 Week 2
-// CONTENT PROVIDER
-// **** NOT EASY!! **** //
-
-
 package com.dinkydetails.weatherpull;
 
 import android.content.ContentProvider;
@@ -17,20 +11,16 @@ import android.net.Uri;
 public class myContentProvider extends ContentProvider {
 
 	private MyDataBaseHelper dbHelper;
-	
-	//Creating the Uri Matchers  - All items from the JSON
+
 	private static final int TEN_DAYS = 1;
 	private static final int FIVE_DAYS = 2;
 	private static final int SINGLE_DAY = 3;
-	
-	//Setting up the Authority
+
 	private static final String AUTHORITY = "com.dinkydetails.weatherpull.myContentProvider";
 
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/Weather");
 
-
-	//Setting up for the Uri
 	private static final UriMatcher uriMatcher;
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -46,7 +36,6 @@ public class myContentProvider extends ContentProvider {
 	}
 
 	@Override
-	//Testing the UriMatcher
 	public String getType(Uri uri) {
 
 		switch (uriMatcher.match(uri)) {
@@ -80,13 +69,11 @@ public class myContentProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
-		//Making sure we can access the database
+
 		SQLiteDatabase db = dbHelper.getWritableDatabase();
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(WeatherDb.SQLITE_TABLE);
-		
-		//Setting up the cases for the queries
-		
+
 		switch (uriMatcher.match(uri)) {
 		case TEN_DAYS:
 			queryBuilder.appendWhere(WeatherDb.KEY_PERIOD + "=" + 10);

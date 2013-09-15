@@ -1,8 +1,3 @@
-// Dan Annis
-// JAVA 2 Week 2
-// CONTENT PROVIDER
-// **** NOT EASY!! **** //
-
 package com.dinkydetails.weatherpull;
 
 import android.content.Context;
@@ -11,13 +6,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 public class WeatherDb {
-	//Setting up Global Contstants to be accessed later by the content provider
+
 	public static final String KEY_ROWID = "_id";
 	public static final String KEY_PERIOD = "period";
 	public static final String KEY_WEEKDAY = "weekday";
 	public static final String KEY_FAHRENHEIT = "fahrenheit";
 	public static final String KEY_SKYICON = "skyicon";
-	//other constants
+
 	private static final String LOG_TAG = "WeatherDb";
 	public static final String SQLITE_TABLE = "Weather";
 

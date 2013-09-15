@@ -1,8 +1,3 @@
-// Dan Annis
-// JAVA 2 Week 2
-// CONTENT PROVIDER
-// **** NOT EASY!! **** //
-
 package com.dinkydetails.weatherpull;
 
 import java.util.ArrayList;
@@ -83,7 +78,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 
 	@Override
-	//Setting up the buttons Click event cases
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.buttonSearch:
@@ -121,9 +115,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		}
 
 	}
-	// 
+
 	private void searchWeather(final String search_string, final int i) {
-		//Close Keyboard after Entry
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(editTextZipCode.getWindowToken(), 0);
 
@@ -135,7 +128,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 				if (msg.arg1 == RESULT_OK && msg.obj != null) {
 					try {
-						// search_string may be ZipCode
 						response = (String) msg.obj;
 						Log.i("JSON DATA", response);
 						prepareListData(i);
@@ -145,7 +137,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				}
 			}
 		};
-		//Setting up Messenger to the Service
+
 		Messenger myDataMessenger = new Messenger(myDataHandler);
 
 		Intent startDataServiceIntent = new Intent(getBaseContext(),
@@ -153,12 +145,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		startDataServiceIntent.putExtra("messenger", myDataMessenger);
 		startDataServiceIntent.putExtra("user_input", search_string);
 		startService(startDataServiceIntent);
-		//Show that the service is started and waiting information
 		resultTextView.setText("Waiting....");
 	}
 
-	
-	//Fetching the data from local DB and displaying it in list 
+	/**
+	 * Fetching the data from local DB and displaying it in list
+	 */
 	public void displayData(String request) {
 		String[] data = { WeatherDb.KEY_ROWID, WeatherDb.KEY_WEEKDAY,
 				WeatherDb.KEY_FAHRENHEIT, WeatherDb.KEY_SKYICON };
@@ -180,23 +172,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			resultTextView.setText(msg);
 		}
 	}
-	//Setting up the list to be ready for all the data that is going to go in it
+
 	private void prepareListData(int i) {
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
 		listAdapter = new ExpandableListAdapter(this, listDataHeader,
 				listDataChild);
 		expListView.setAdapter(listAdapter);
-		
-		//Looking for the data to be put in
+
 		Cursor cursor = db.rawQuery("SELECT * FROM " + WeatherDb.SQLITE_TABLE,
 				null);
 
 		resultTextView.setVisibility(View.GONE);
 		expListView.setVisibility(View.VISIBLE);
 		if (cursor != null && cursor.moveToFirst()) {
-			
-			//This looks for the results of the first search and puts the data into the header/row
+
 			if (i == 1) {
 				String weekday1 = cursor.getString(cursor
 						.getColumnIndexOrThrow(WeatherDb.KEY_WEEKDAY));
@@ -204,15 +194,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 						.getColumnIndexOrThrow(WeatherDb.KEY_FAHRENHEIT));
 				String skyicon1 = cursor.getString(cursor
 						.getColumnIndexOrThrow(WeatherDb.KEY_SKYICON));
-				//Set the Header to the day of the week
+
 				listDataHeader.add(weekday1);
-				//Put the contents into the row
+
 				List<String> period1 = new ArrayList<String>();
 				period1.add("Temprature = " + fahrenheit1 + " F");
 				period1.add("Weather Details = " + skyicon1);
 
 				listDataChild.put(listDataHeader.get(0), period1);
-				//This looks for the results of the second search and puts the data into the header/row
+
 			} else if (i == 2) {
 				String weekday1 = cursor.getString(cursor
 						.getColumnIndexOrThrow(WeatherDb.KEY_WEEKDAY));
@@ -284,9 +274,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				listDataChild.put(listDataHeader.get(2), period3);
 				listDataChild.put(listDataHeader.get(3), period4);
 				listDataChild.put(listDataHeader.get(4), period5);
-				//This looks for the results of the third search and puts the data into the header/row
-				//I'm thinking there is an easier way to do this! Just not sure how.. and not sure I have time. 
-			
+
 			} else if (i == 3) {
 				String weekday1 = cursor.getString(cursor
 						.getColumnIndexOrThrow(WeatherDb.KEY_WEEKDAY));
