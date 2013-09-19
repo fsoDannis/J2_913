@@ -104,9 +104,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.buttonSearch:
-			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
 			db.delete(WeatherDb.SQLITE_TABLE, null, null);
-			
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {
@@ -118,9 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			break;
 
 		case R.id.btnfive:
-			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
 			db.delete(WeatherDb.SQLITE_TABLE, null, null);
-			
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {
@@ -132,9 +128,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			break;
 
 		case R.id.btnten:
-			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
 			db.delete(WeatherDb.SQLITE_TABLE, null, null);
-			
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {

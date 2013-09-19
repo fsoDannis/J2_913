@@ -36,11 +36,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private TextView resultTextView;
 	private Button btnFiveDays;
 	private Button btnTenDays;
-	private Button btnNext;
 
 	///Other Vars
 	private SQLiteDatabase db;
-	String zipCode = null;
 	//static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
 
 	@Override
@@ -72,12 +70,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		buttonSearch.setOnClickListener(this);
 		btnFiveDays = (Button) findViewById(R.id.btnfive);
 		btnTenDays = (Button) findViewById(R.id.btnten);
-		btnNext = (Button) findViewById(R.id.btnnext);
-		//setting up the listeners
 		btnFiveDays.setOnClickListener(this);
 		btnTenDays.setOnClickListener(this);
-		btnNext.setOnClickListener(this);
-		
+	
 		//Listview setup
 		expListView = (ExpandableListView) findViewById(R.id.lvExp);
 		
@@ -86,27 +81,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		db = helper.getWritableDatabase();
 
 	}
-	//Setting up the save method for when the screen changes orientation
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		zipCode = editTextZipCode.getText().toString().trim();
-		super.onSaveInstanceState(outState);
-	}
-	//Restoring the data for when the screen changes orientation
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		prepareListData(1);
-	}
 
 	@Override
 	//Setting up the buttons Click event cases
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.buttonSearch:
-			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
-			db.delete(WeatherDb.SQLITE_TABLE, null, null);
-			
+			db.rawQuery("Delete from " + WeatherDb.SQLITE_TABLE, null);
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {
@@ -118,9 +99,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			break;
 
 		case R.id.btnfive:
-			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
-			db.delete(WeatherDb.SQLITE_TABLE, null, null);
-			
+			db.rawQuery("Delete from " + WeatherDb.SQLITE_TABLE, null);
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {
@@ -132,9 +111,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			break;
 
 		case R.id.btnten:
-			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
-			db.delete(WeatherDb.SQLITE_TABLE, null, null);
-			
+			db.rawQuery("Delete from " + WeatherDb.SQLITE_TABLE, null);
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {
@@ -144,20 +121,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			}
 			searchWeather(editTextZipCode.getText().toString().trim(), 3);
 			break;
-		case R.id.btnnext:
-			if (editTextZipCode.getText().toString().length() == 0) {
-				Toast.makeText(this, "Please Enter a Valid Zip Code!",
-						Toast.LENGTH_LONG).show();
-				return;
-			} else {
-				Intent iNextIntent = new Intent(MainActivity.this,
-						SecondActivity.class);
-				Bundle bundle = new Bundle();
-				bundle.putString("zip", editTextZipCode.getText().toString()
-						.trim());
-				iNextIntent.putExtras(bundle);
-				startActivity(iNextIntent);
-			}
 		}
 
 	}

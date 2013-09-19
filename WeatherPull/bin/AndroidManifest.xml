@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.dinkydetails.weatherpull"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.dinkydetails.weatherpull"
     android:versionCode="1"
-    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -18,7 +19,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.dinkydetails.weatherpull.MainActivity"
-            android:label="@string/app_name" android:screenOrientation="unspecified" android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="unspecified" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,13 +29,20 @@
             </intent-filter>
         </activity>
 
-        <service android:name="WeatherService" >
+        <service android:name="WeatherService" android:enabled="true">
         </service>
-        <provider 
-            android:exported="true" 
-            android:name="myContentProvider" 
-            android:authorities="com.dinkydetails.weatherpull.myContentProvider">
+
+        <provider
+            android:name="myContentProvider"
+            android:authorities="com.dinkydetails.weatherpull.myContentProvider"
+            android:exported="true" >
         </provider>
+
+        <activity
+            android:name="SecondActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="unspecified" >
+        </activity>
     </application>
 
 </manifest>
