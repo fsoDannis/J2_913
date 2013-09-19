@@ -83,9 +83,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		
 		//helper to access the DB
 		MyDataBaseHelper helper = new MyDataBaseHelper(this);
-		
-		//Setting up the SINGLETON  --> SingeltonClass.getInstance().methodName
-		db = helper.getInstance(this).getWritableDatabase();
+		db = helper.getWritableDatabase();
 
 	}
 	//Setting up the save method for when the screen changes orientation
