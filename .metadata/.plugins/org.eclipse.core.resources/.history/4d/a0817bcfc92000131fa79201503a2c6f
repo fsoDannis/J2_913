@@ -135,12 +135,12 @@ public class WeatherService extends IntentService {
 
 							JSONObject date = c.getJSONObject("date");
 							String weekday = date.getString("weekday");
-							Log.i("WEEKDAY",weekday);
+
 							JSONObject high = c.getJSONObject("high");
 							String fahrenheit = high.getString("fahrenheit");
-							
+
 							String skyicon = c.getString("conditions");
-							Log.i("SKYICON",skyicon);
+
 							ContentValues values = new ContentValues();
 							values.put(WeatherDb.KEY_PERIOD, period);
 							values.put(WeatherDb.KEY_WEEKDAY, weekday);
@@ -151,7 +151,7 @@ public class WeatherService extends IntentService {
 									myContentProvider.CONTENT_URI, values);
 							Log.i("Inserted",
 									"Insertion of Data in DB Complete");
-							Log.i("Final URL",finalURL.toString());
+
 						}
 
 					}
@@ -189,5 +189,5 @@ public class WeatherService extends IntentService {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

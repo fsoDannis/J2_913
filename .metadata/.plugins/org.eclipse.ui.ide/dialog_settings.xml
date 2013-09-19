@@ -4,6 +4,18 @@
 		<item value="244" key="DIALOG_Y_ORIGIN"/>
 		<item value="387" key="DIALOG_X_ORIGIN"/>
 	</section>
+	<section name="ExternalProjectImportWizard">
+		<item value="true" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
+		<item value="true" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
+		<item value="true" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value=""/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value="/Users/Dannis/Downloads/WeatherPull-2.zip"/>
+			<item value="/Users/Dannis/Downloads/WeatherPull-1.zip"/>
+		</list>
+	</section>
 	<section name="WORKBENCH_SETTINGS">
 		<list key="ENABLED_TRANSFERS">
 		</list>
@@ -11,8 +23,8 @@
 	<section name="CleanDialogSettings">
 		<item value="484" key="DIALOG_WIDTH"/>
 		<item value="207" key="DIALOG_Y_ORIGIN"/>
-		<item value="440" key="DIALOG_X_ORIGIN"/>
 		<item value="354" key="DIALOG_HEIGHT"/>
+		<item value="440" key="DIALOG_X_ORIGIN"/>
 		<item value="false" key="TOGGLE_SELECTED"/>
 	</section>
 </section>

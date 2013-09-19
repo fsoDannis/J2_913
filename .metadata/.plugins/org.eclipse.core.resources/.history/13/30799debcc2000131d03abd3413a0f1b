@@ -39,7 +39,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	///Other Vars
 	private SQLiteDatabase db;
-	//static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
+	static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

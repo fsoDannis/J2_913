@@ -39,7 +39,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	///Other Vars
 	private SQLiteDatabase db;
-	//static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
+	static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +87,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.buttonSearch:
-			db.rawQuery("Delete from " + WeatherDb.SQLITE_TABLE, null);
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {
@@ -99,7 +98,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			break;
 
 		case R.id.btnfive:
-			db.rawQuery("Delete from " + WeatherDb.SQLITE_TABLE, null);
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {
@@ -111,7 +109,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			break;
 
 		case R.id.btnten:
-			db.rawQuery("Delete from " + WeatherDb.SQLITE_TABLE, null);
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {

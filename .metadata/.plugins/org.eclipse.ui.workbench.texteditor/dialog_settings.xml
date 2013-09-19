@@ -13,8 +13,10 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="" key="selection"/>
+		<item value="baseURL" key="selection"/>
 		<list key="findhistory">
+			<item value="baseURL"/>
+			<item value="activity"/>
 			<item value="FILENAME"/>
 			<item value="txt"/>
 			<item value="wifi11`"/>
