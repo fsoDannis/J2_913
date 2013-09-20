@@ -17,19 +17,15 @@ public class WeatherDb {
 	public static final String KEY_WEEKDAY = "weekday";
 	public static final String KEY_FAHRENHEIT = "fahrenheit";
 	public static final String KEY_SKYICON = "skyicon";
-	public static final String KEY_MAXWIND = "maxwind";
-	public static final String KEY_AVGWIND = "avgwind";
-	public static final String KEY_MAXHUMIDITY = "maxhumidity";
 	//other constants
 	private static final String LOG_TAG = "WeatherDb";
 	public static final String SQLITE_TABLE = "Weather";
 
 	private static final String DATABASE_CREATE = "CREATE TABLE if not exists "
 			+ SQLITE_TABLE + " (" + KEY_ROWID
-			+ " integer PRIMARY KEY autoincrement," + KEY_WEEKDAY + ","
-			+ KEY_FAHRENHEIT + "," + KEY_SKYICON + "," + KEY_MAXWIND + ","
-			+ KEY_AVGWIND + "," + KEY_MAXHUMIDITY + ");";
-	
+			+ " integer PRIMARY KEY autoincrement," + KEY_PERIOD + ","
+			+ KEY_WEEKDAY + "," + KEY_FAHRENHEIT + "," + KEY_SKYICON + ");";
+
 	private MyDataBaseHelper sqLiteHelper;
 	private SQLiteDatabase sqLiteDatabase;
 
@@ -48,9 +44,8 @@ public class WeatherDb {
 	public Cursor getContact(int id) {
 		SQLiteDatabase db = sqLiteHelper.getReadableDatabase();
 
-		Cursor cursor = db.query(SQLITE_TABLE, new String[] { KEY_WEEKDAY,
-				KEY_FAHRENHEIT, KEY_SKYICON, KEY_MAXWIND, KEY_AVGWIND,
-				KEY_MAXHUMIDITY }, KEY_ROWID + "=?",
+		Cursor cursor = db.query(SQLITE_TABLE, new String[] { KEY_PERIOD,
+				KEY_WEEKDAY, KEY_FAHRENHEIT, KEY_SKYICON }, KEY_PERIOD + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 		if (cursor != null)
 			cursor.moveToFirst();

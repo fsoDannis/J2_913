@@ -41,7 +41,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	///Other Vars
 	private SQLiteDatabase db;
 	String zipCode = null;
-	private boolean clickFlag = false;
 	//static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
 
 	@Override
@@ -89,26 +88,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		db = helper.getInstance(this).getWritableDatabase();
 
 	}
-	//Getting Data Back from the Second Activity.
-	@Override
-	protected void onResume() {
-		super.onResume();
-		resultTextView.setVisibility(View.VISIBLE);
-		Bundle params = getIntent().getExtras();
-		if (params != null) {
-			String maxWind = params.getString("maxWind");
-			String avgWind = params.getString("avgWind");
-			String maxHumidity = params.getString("maxHumidity");
-			String zip = params.getString("zip");
-			editTextZipCode.setText(zip);
-			resultTextView
-					.setText("The data received from previous Activity through intents is \n\nAverage Wind : "
-							+ avgWind
-							+ "\n Max Wind : "
-							+ maxWind
-							+ "\n Max Humidity : " + maxHumidity);
-		}
-	}
 	//Setting up the save method for when the screen changes orientation
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -127,7 +106,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.buttonSearch:
-			clickFlag = true;
 			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
 			db.delete(WeatherDb.SQLITE_TABLE, null, null);
 			
@@ -137,14 +115,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Toast.makeText(this, "Please Enter a Valid Zip Code!",
 						Toast.LENGTH_LONG).show();
 				return;
-			}else {
-				searchWeather(editTextZipCode.getText().toString().trim(), 1);
 			}
+			searchWeather(editTextZipCode.getText().toString().trim(), 1);
 			break;
-			
 
 		case R.id.btnfive:
-			clickFlag = true;
 			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
 			db.delete(WeatherDb.SQLITE_TABLE, null, null);
 			
@@ -154,13 +129,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Toast.makeText(this, "Please Enter a Valid Zip Code!",
 						Toast.LENGTH_LONG).show();
 				return;
-			}else{
-			searchWeather(editTextZipCode.getText().toString().trim(), 2);
 			}
+			searchWeather(editTextZipCode.getText().toString().trim(), 2);
 			break;
 
 		case R.id.btnten:
-			clickFlag = true;
 			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
 			db.delete(WeatherDb.SQLITE_TABLE, null, null);
 			
@@ -170,12 +143,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				Toast.makeText(this, "Please Enter a Valid Zip Code!",
 						Toast.LENGTH_LONG).show();
 				return;
-			}else{
-			searchWeather(editTextZipCode.getText().toString().trim(), 3);
 			}
+			searchWeather(editTextZipCode.getText().toString().trim(), 3);
 			break;
 		case R.id.btnnext:
-			if (clickFlag == true) {
 			if (editTextZipCode.getText().toString().length() == 0) {
 				Toast.makeText(this, "Please Enter a Valid Zip Code!",
 						Toast.LENGTH_LONG).show();
@@ -189,10 +160,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				iNextIntent.putExtras(bundle);
 				startActivity(iNextIntent);
 			}
-			} else {
-				Toast.makeText(this, "Please search the data first.",
-						Toast.LENGTH_LONG).show();
-			}break;
 		}
 
 	}

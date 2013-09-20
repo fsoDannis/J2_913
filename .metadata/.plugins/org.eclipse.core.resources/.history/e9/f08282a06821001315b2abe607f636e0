@@ -170,7 +170,7 @@ public class WeatherService extends IntentService {
 						}
 
 					}
-					}
+
 				} catch (MalformedURLException mue) {
 					Log.e("BAD URL", "Malformed URL");
 					finalURL = null;

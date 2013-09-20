@@ -123,54 +123,39 @@ public class WeatherService extends IntentService {
 					//  the required values in the database
 					 
 					if (json != null) {
-						if (json.toString().contains(
-								"No cities match your search query")) {
-							// Display Text in TextView
-						} else {
 
 						JSONArray weather = json.getJSONObject("forecast")
 								.getJSONObject("simpleforecast")
 								.getJSONArray("forecastday");
-
+						//Looping through each item in the array and grabbing the needed items
 						for (int i = 0; i < weather.length(); i++) {
 							JSONObject c = weather.getJSONObject(i);
 
+							String period = c.getString("period");
+
 							JSONObject date = c.getJSONObject("date");
 							String weekday = date.getString("weekday");
-
+							Log.i("WEEKDAY",weekday);
 							JSONObject high = c.getJSONObject("high");
-							String fahrenheit = high
-									.getString("fahrenheit");
-
+							String fahrenheit = high.getString("fahrenheit");
+							
 							String skyicon = c.getString("conditions");
-
-							JSONObject wind = c.getJSONObject("maxwind");
-							String maxWind = wind.getString("mph");
-
-							JSONObject aWind = c.getJSONObject("avewind");
-							String avgWind = aWind.getString("mph");
-
-							String maxHumidity = c.getString("maxhumidity");
-
+							Log.i("SKYICON",skyicon);
 							ContentValues values = new ContentValues();
+							values.put(WeatherDb.KEY_PERIOD, period);
 							values.put(WeatherDb.KEY_WEEKDAY, weekday);
 							values.put(WeatherDb.KEY_FAHRENHEIT, fahrenheit);
 							values.put(WeatherDb.KEY_SKYICON, skyicon);
-							values.put(WeatherDb.KEY_MAXWIND, maxWind);
-							values.put(WeatherDb.KEY_AVGWIND, avgWind);
-							values.put(WeatherDb.KEY_MAXHUMIDITY,
-									maxHumidity);
 
 							getContentResolver().insert(
 									myContentProvider.CONTENT_URI, values);
-							Log.i("Values saved in database are ", weekday
-									+ " " + fahrenheit + " " + skyicon
-									+ " " + maxWind + " " + avgWind + " "
-									+ maxHumidity);
+							Log.i("Inserted",
+									"Insertion of Data in DB Complete");
+							Log.i("Final URL",finalURL.toString());
 						}
 
 					}
-					}
+
 				} catch (MalformedURLException mue) {
 					Log.e("BAD URL", "Malformed URL");
 					finalURL = null;

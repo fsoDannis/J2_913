@@ -22,7 +22,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 	//This is the list adapter that lets me expand each item. Pretty cool code
 	// Found tutorial @ http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/
-	// Just think there should be a way to loop it...
+	// Just think there should be a way to loop it.. 
 	
 	private Context _context;
 	private List<String> _listDataHeader; // header titles
