@@ -19,7 +19,7 @@ public class FormFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		super.onCreateView(inflater, container, savedInstanceState);
 		
-		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.activity_main, container, false);
+		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.formfragment, container, false);
 		return view;  
 	};
 	
