@@ -37,8 +37,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	private Button btnFiveDays;
 	private Button btnTenDays;
 	private Button btnNext;
-	private int nClickedBtn;
-	
+
 	///Other Vars
 	private SQLiteDatabase db;
 	String zipCode = null;
@@ -54,6 +53,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		resultTextView = (TextView) findViewById(R.id.resultTextView);
 		editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
 		
+		//Checking for activity on the edit button
+		editTextZipCode
+				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_SEARCH
+								|| (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+							searchWeather(editTextZipCode.getText().toString()
+									.trim(), 1);
+							return true;
+						}
+						return false;
+					}
+				});
 		//Setting up the buttons and their locations
 		buttonSearch = (Button) findViewById(R.id.buttonSearch);
 		buttonSearch.setOnClickListener(this);
@@ -105,9 +119,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		
-		nClickedBtn =(Integer) savedInstanceState.getSerializable("clickedBtn");
-		prepareListData(nClickedBtn);
+		prepareListData(1);
 	}
 
 	@Override
@@ -245,7 +257,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 	//Setting up the list to be ready for all the data that is going to go in it
 	private void prepareListData(int i) {
-		nClickedBtn=i;
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
 		listAdapter = new ExpandableListAdapter(this, listDataHeader,

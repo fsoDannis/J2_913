@@ -4663,3 +4663,39 @@ The most important of these settings is core.autocrlf. Git for Windows by defaul
 this system level configuration. The Git installation location can be configured on the
 Team > Git > Configuration preference page's 'System Settings' tab.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2013-09-24 20:25:44.928 -----------------------------------------------
+eclipse.buildId=4.3.0.I20130605-2000
+java.version=1.7.0_04-ea
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product -keyring /Users/Dannis/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.standard.product -keyring /Users/Dannis/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2013-09-24 20:26:01.025
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-24 20:26:10.975
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2013-09-24 21:02:35.849 -----------------------------------------------
+eclipse.buildId=4.3.0.I20130605-2000
+java.version=1.7.0_04-ea
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.standard.product -product org.eclipse.epp.package.standard.product -product org.eclipse.epp.package.standard.product -keyring /Users/Dannis/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.standard.product -product org.eclipse.epp.package.standard.product -data /Users/Dannis/Documents/Full Sail School Files/J2_913 -product org.eclipse.epp.package.standard.product -keyring /Users/Dannis/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2013-09-24 21:02:41.238
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.egit.ui 2 0 2013-09-24 21:02:48.749
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
