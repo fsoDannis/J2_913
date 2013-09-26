@@ -4,3 +4,5 @@
 1380189541775	Rename resource 'formfragment.xml'
 1380189552760	Rename resource 'pm_fragment'
 1380189572827	Rename resource 'secondfragment.xml'
+1380189876258	Rename type 'FormFragment'
+1380189889102	Rename type 'SecondFragment'
