@@ -20,21 +20,22 @@ import android.widget.ExpandableListView;
 
 @SuppressLint({ "HandlerLeak", "HandlerLeak" })
 public class MainActivity extends FragmentActivity implements
-		View.OnClickListener {
+View.OnClickListener {
 
-	/**
-	 * Declaring variables to be used in the class
-	 */
+	//Listview adapter setup
 	ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
+	
+	//Setting up vars for main UI
 
+	
+	///Other Vars
 	public static int nClickedBtn = 0;
 	String zipCode = null;
 	public static String ZipCode;
-
-	static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
+	//static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
 
 	/**
 	 * This is the first function of class that gets launched when a activity is

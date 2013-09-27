@@ -19,12 +19,11 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.dinkydetails.weatherpull.MainActivity"
-            android:configChanges="orientation|screenSize"
+          
             android:label="@string/app_name"
-            android:screenOrientation="unspecified" >
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

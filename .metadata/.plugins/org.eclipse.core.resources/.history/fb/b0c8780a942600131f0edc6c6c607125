@@ -1,100 +1,86 @@
+// Dan Annis
+// JAVA 2 Week 2
+// CONTENT PROVIDER
+// **** NOT EASY!! **** //
+
 package com.dinkydetails.weatherpull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.net.Uri;
+import android.os.*;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
+import android.app.*;
+import android.content.*;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Messenger;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.util.*;
+import android.view.*;
+import android.view.inputmethod.*;
+import android.widget.*;
 
-@SuppressLint("HandlerLeak")
-public class PM_Fragment extends Fragment implements OnClickListener {
+@SuppressLint({ "HandlerLeak", "HandlerLeak" })
+public class MainActivity extends Activity implements View.OnClickListener {
 
+	//Listview adapter setup
 	ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
-
+	
+	//Setting up vars for main UI
 	private EditText editTextZipCode;
 	private Button buttonSearch;
 	private TextView resultTextView;
-
 	private Button btnFiveDays;
 	private Button btnTenDays;
 	private Button btnNext;
-
+	private int nClickedBtn;
+	
+	///Other Vars
 	private SQLiteDatabase db;
-
 	String zipCode = null;
 	private boolean clickFlag = false;
-	Context context;
-
-	static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
+	//static final String baseURL = "api.wunderground.com/api/a988d453ebe759ad/forecast10day/q/";
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		/**
-		 * Inflate the layout for this fragment
-		 */
-		View view = inflater.inflate(R.layout.pm_fragment, container, false);
-
-		context = view.getContext();
-		resultTextView = (TextView) view.findViewById(R.id.resultTextView);
-		editTextZipCode = (EditText) view.findViewById(R.id.editTextZipCode);
-
-		// Creating reference for all the buttons
-		buttonSearch = (Button) view.findViewById(R.id.buttonSearch);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.pm_fragment);
+		
+		//accessing my UI components
+		resultTextView = (TextView) findViewById(R.id.resultTextView);
+		editTextZipCode = (EditText) findViewById(R.id.editTextZipCode);
+		
+		//Setting up the buttons and their locations
+		buttonSearch = (Button) findViewById(R.id.buttonSearch);
 		buttonSearch.setOnClickListener(this);
-
-		btnFiveDays = (Button) view.findViewById(R.id.btnfive);
-		btnTenDays = (Button) view.findViewById(R.id.btnten);
-		btnNext = (Button) view.findViewById(R.id.btnnext);
-
+		btnFiveDays = (Button) findViewById(R.id.btnfive);
+		btnTenDays = (Button) findViewById(R.id.btnten);
+		btnNext = (Button) findViewById(R.id.btnnext);
+		//setting up the listeners
 		btnFiveDays.setOnClickListener(this);
 		btnTenDays.setOnClickListener(this);
 		btnNext.setOnClickListener(this);
+		
+		//Listview setup
+		expListView = (ExpandableListView) findViewById(R.id.lvExp);
+		
+		//helper to access the DB
+		MyDataBaseHelper helper = new MyDataBaseHelper(this);
+		
+		//Setting up the SINGLETON  --> SingeltonClass.getInstance().methodName
+		db = helper.getInstance(this).getWritableDatabase();
 
-		expListView = (ExpandableListView) view.findViewById(R.id.lvExp);
-
-		// Database helper
-		MyDataBaseHelper helper = new MyDataBaseHelper(view.getContext());
-		db = helper.getInstance(view.getContext()).getWritableDatabase();
-
-		if (MainActivity.nClickedBtn != 0) {
-			prepareListData(MainActivity.nClickedBtn);
-
-			editTextZipCode.setText("" + MainActivity.ZipCode);
-		}
-		return view;
 	}
-
+	//Getting Data Back from the Second Activity.
 	@Override
-	public void onResume() {
+	protected void onResume() {
 		super.onResume();
 		resultTextView.setVisibility(View.VISIBLE);
-		Bundle params = ((Activity) context).getIntent().getExtras();
+		Bundle params = getIntent().getExtras();
 		if (params != null) {
 			String maxWind = params.getString("maxWind");
 			String avgWind = params.getString("avgWind");
@@ -104,108 +90,117 @@ public class PM_Fragment extends Fragment implements OnClickListener {
 			resultTextView
 					.setText("The data received from previous Activity through intents is \n\nAverage Wind : "
 							+ avgWind
-							+ ", Max Wind : "
+							+ "\n Max Wind : "
 							+ maxWind
-							+ " and Max Humidity : " + maxHumidity);
+							+ "\n Max Humidity : " + maxHumidity);
 		}
+	}
+	//Setting up the save method for when the screen changes orientation
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		zipCode = editTextZipCode.getText().toString().trim();
+		super.onSaveInstanceState(outState);
+	}
+	//Restoring the data for when the screen changes orientation
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		
+		nClickedBtn =(Integer) savedInstanceState.getSerializable("clickedBtn");
+		prepareListData(nClickedBtn);
 	}
 
 	@Override
+	//Setting up the buttons Click event cases
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.buttonSearch:
 			clickFlag = true;
+			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
 			db.delete(WeatherDb.SQLITE_TABLE, null, null);
+			
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {
-				Toast.makeText(context, "Please Enter a Valid Zip Code!",
+				Toast.makeText(this, "Please Enter a Valid Zip Code!",
 						Toast.LENGTH_LONG).show();
 				return;
-			} else {
-				MainActivity.ZipCode = editTextZipCode.getText().toString()
-						.trim();
+			}else {
 				searchWeather(editTextZipCode.getText().toString().trim(), 1);
 			}
 			break;
+			
 
 		case R.id.btnfive:
 			clickFlag = true;
+			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
 			db.delete(WeatherDb.SQLITE_TABLE, null, null);
+			
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {
-				Toast.makeText(context, "Please Enter a Valid Zip Code!",
+				Toast.makeText(this, "Please Enter a Valid Zip Code!",
 						Toast.LENGTH_LONG).show();
 				return;
-			} else {
-				MainActivity.ZipCode = editTextZipCode.getText().toString()
-						.trim();
-				searchWeather(editTextZipCode.getText().toString().trim(), 2);
+			}else{
+			searchWeather(editTextZipCode.getText().toString().trim(), 2);
 			}
 			break;
 
 		case R.id.btnten:
 			clickFlag = true;
+			//WAS MISSING THIS CODE TO DELETE THE OLD DB TO REWRITE A NEW
 			db.delete(WeatherDb.SQLITE_TABLE, null, null);
+			
 			resultTextView.setVisibility(View.VISIBLE);
 			expListView.setVisibility(View.GONE);
 			if (editTextZipCode.getText().toString().length() == 0) {
-				Toast.makeText(context, "Please Enter a Valid Zip Code!",
+				Toast.makeText(this, "Please Enter a Valid Zip Code!",
+						Toast.LENGTH_LONG).show();
+				return;
+			}else{
+			searchWeather(editTextZipCode.getText().toString().trim(), 3);
+			}
+			break;
+		case R.id.btnnext:
+			if (clickFlag == true) {
+			if (editTextZipCode.getText().toString().length() == 0) {
+				Toast.makeText(this, "Please Enter a Valid Zip Code!",
 						Toast.LENGTH_LONG).show();
 				return;
 			} else {
-				MainActivity.ZipCode = editTextZipCode.getText().toString()
-						.trim();
-				searchWeather(editTextZipCode.getText().toString().trim(), 3);
+				Intent iNextIntent = new Intent(MainActivity.this,
+						SecondActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putString("zip", editTextZipCode.getText().toString()
+						.trim());
+				iNextIntent.putExtras(bundle);
+				startActivity(iNextIntent);
 			}
-			break;
-
-		case R.id.btnnext:
-			if (clickFlag == true) {
-				if (editTextZipCode.getText().toString().length() == 0) {
-					Toast.makeText(context, "Please Enter a Valid Zip Code!",
-							Toast.LENGTH_LONG).show();
-					return;
-				} else {
-					Intent iNextIntent = new Intent(context,
-							SecondActivity.class);
-					Bundle bundle = new Bundle();
-					bundle.putString("zip", editTextZipCode.getText()
-							.toString().trim());
-					iNextIntent.putExtras(bundle);
-					startActivityForResult(iNextIntent, 0);
-
-				}
 			} else {
-				Toast.makeText(context, "Please search the data first.",
+				Toast.makeText(this, "Please search the data first.",
 						Toast.LENGTH_LONG).show();
-			}
-			break;
+			}break;
 		}
 
 	}
-
+	// 
 	private void searchWeather(final String search_string, final int i) {
-		InputMethodManager imm = (InputMethodManager) context
-				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		//Close Keyboard after Entry
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(editTextZipCode.getWindowToken(), 0);
 
-		// Service Handler
 		Handler myDataHandler = new Handler() {
-			@SuppressLint("HandlerLeak")
-			@SuppressWarnings("static-access")
 			@Override
 			public void handleMessage(Message msg) {
 				Log.i("SERVICE", "handlemessage() called");
 				String response = null;
 
-				if (msg.arg1 == ((Activity) context).RESULT_OK
-						&& msg.obj != null) {
+				if (msg.arg1 == RESULT_OK && msg.obj != null) {
 					try {
+						// search_string may be ZipCode
 						response = (String) msg.obj;
 						Log.i("JSON DATA", response);
-
 						prepareListData(i);
 					} catch (Exception e) {
 						Log.e("JSON Response", e.toString());
@@ -213,23 +208,25 @@ public class PM_Fragment extends Fragment implements OnClickListener {
 				}
 			}
 		};
-
+		//Setting up Messenger to the Service
 		Messenger myDataMessenger = new Messenger(myDataHandler);
 
-		Intent startDataServiceIntent = new Intent(context,
+		Intent startDataServiceIntent = new Intent(getBaseContext(),
 				WeatherService.class);
 		startDataServiceIntent.putExtra("messenger", myDataMessenger);
 		startDataServiceIntent.putExtra("user_input", search_string);
-		context.startService(startDataServiceIntent);
+		startService(startDataServiceIntent);
+		//Show that the service is started and waiting information
 		resultTextView.setText("Waiting....");
 	}
 
+	
+	//Fetching the data from local DB and displaying it in list 
 	public void displayData(String request) {
 		String[] data = { WeatherDb.KEY_ROWID, WeatherDb.KEY_WEEKDAY,
 				WeatherDb.KEY_FAHRENHEIT, WeatherDb.KEY_SKYICON };
 		Uri uri = Uri.parse(myContentProvider.CONTENT_URI + "/" + 1);
-		Cursor cursor = context.getContentResolver().query(uri, data, null,
-				null, null);
+		Cursor cursor = getContentResolver().query(uri, data, null, null, null);
 		if (cursor != null && cursor.moveToFirst()) {
 			cursor.moveToNext();
 			String weekday = cursor.getString(cursor
@@ -246,23 +243,24 @@ public class PM_Fragment extends Fragment implements OnClickListener {
 			resultTextView.setText(msg);
 		}
 	}
-
-	public void prepareListData(int i) {
-		MainActivity.nClickedBtn = i;
+	//Setting up the list to be ready for all the data that is going to go in it
+	private void prepareListData(int i) {
+		nClickedBtn=i;
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
-		listAdapter = new ExpandableListAdapter(context, listDataHeader,
+		listAdapter = new ExpandableListAdapter(this, listDataHeader,
 				listDataChild);
 		expListView.setAdapter(listAdapter);
-
+		
+		//Looking for the data to be put in
 		Cursor cursor = db.rawQuery("SELECT * FROM " + WeatherDb.SQLITE_TABLE,
 				null);
 
 		resultTextView.setVisibility(View.GONE);
 		expListView.setVisibility(View.VISIBLE);
 		if (cursor != null && cursor.moveToFirst()) {
-
-			// Checking which button click needs to be handled
+			
+			//This looks for the results of the first search and puts the data into the header/row
 			if (i == 1) {
 				String weekday1 = cursor.getString(cursor
 						.getColumnIndexOrThrow(WeatherDb.KEY_WEEKDAY));
@@ -270,15 +268,15 @@ public class PM_Fragment extends Fragment implements OnClickListener {
 						.getColumnIndexOrThrow(WeatherDb.KEY_FAHRENHEIT));
 				String skyicon1 = cursor.getString(cursor
 						.getColumnIndexOrThrow(WeatherDb.KEY_SKYICON));
-
+				//Set the Header to the day of the week
 				listDataHeader.add(weekday1);
-
+				//Put the contents into the row
 				List<String> period1 = new ArrayList<String>();
 				period1.add("Temprature = " + fahrenheit1 + " F");
 				period1.add("Weather Details = " + skyicon1);
 
 				listDataChild.put(listDataHeader.get(0), period1);
-
+				//This looks for the results of the second search and puts the data into the header/row
 			} else if (i == 2) {
 				String weekday1 = cursor.getString(cursor
 						.getColumnIndexOrThrow(WeatherDb.KEY_WEEKDAY));
@@ -350,7 +348,9 @@ public class PM_Fragment extends Fragment implements OnClickListener {
 				listDataChild.put(listDataHeader.get(2), period3);
 				listDataChild.put(listDataHeader.get(3), period4);
 				listDataChild.put(listDataHeader.get(4), period5);
-
+				//This looks for the results of the third search and puts the data into the header/row
+				//I'm thinking there is an easier way to do this! Just not sure how.. and not sure I have time. 
+			
 			} else if (i == 3) {
 				String weekday1 = cursor.getString(cursor
 						.getColumnIndexOrThrow(WeatherDb.KEY_WEEKDAY));
@@ -466,18 +466,12 @@ public class PM_Fragment extends Fragment implements OnClickListener {
 				listDataChild.put(listDataHeader.get(7), period8);
 			}
 
-		} else {
-			resultTextView.setVisibility(View.VISIBLE);
-			resultTextView.setText("No cities match your search query");
 		}
 
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		zipCode = editTextZipCode.getText().toString().trim();
-		super.onSaveInstanceState(outState);
-		outState.putSerializable("clickedBtn", MainActivity.nClickedBtn);
+	public void onBackPressed() {
+		super.onBackPressed();
 	}
-
 }
